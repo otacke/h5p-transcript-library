@@ -165,12 +165,6 @@ export default class InteractiveTranscript {
     }
 
     this.scrollSnippetsIntoView = state;
-
-    if (!this.scrollSnippetsIntoView) {
-      this.snippets.forEach((snippet) => {
-        snippet.unhighlight();
-      });
-    }
   }
 
   /**

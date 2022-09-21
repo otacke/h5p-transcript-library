@@ -187,10 +187,6 @@ export default class TranscriptText {
    * @param {number} [params.time] Time that snippet should be displayed at.
    */
   highlightSnippet(params = {}) {
-    if (!this.isAutoScrollActive) {
-      return;
-    }
-
     this.snippetsContainer.highlightSnippet(params);
   }
 
