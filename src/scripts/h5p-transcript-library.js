@@ -146,6 +146,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
    */
   show() {
     this.dom.classList.remove('display-none');
+    this.trigger('resize');
   }
 
   /**
@@ -153,6 +154,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.trigger('resize');
   }
 
   /**
@@ -160,6 +162,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
    */
   showTranscripts() {
     this.transcriptText.show();
+    this.trigger('resize');
   }
 
   /**
@@ -167,6 +170,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
    */
   hideTranscripts() {
     this.transcriptText.hide();
+    this.trigger('resize');
   }
 
   /**
