@@ -144,6 +144,9 @@ export default class TranscriptText {
       this.observer.observe(this.snippetsContainer.getDOM());
       this.observer.observe(this.plaintextContainer.getDOM());
     }
+    else {
+      this.toolbar.hideButton('autoscroll');      
+    }
   }
 
   /**
