@@ -1,0 +1,12 @@
+@import './../../styles/main';
+
+.h5p-transcript-text-container {
+  margin: 1em;
+
+  .h5p-transcript-transcript-container {
+
+    &.plaintext .h5p-transcript-snippets-container {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "title": "Transcript library",
+  "description": "Transcript library to be used by H5P content types",
+  "majorVersion": 1,
+  "minorVersion": 0,
+  "patchVersion": 0,
+  "runnable": 0,
+  "author": "Oliver Tacke",
+  "license": "MIT",
+  "machineName": "H5P.TranscriptLibrary",
+  "embedTypes": [
+    "iframe"
+  ],
+  "preloadedJs": [
+    {
+      "path": "dist/h5p-transcript-library.js"
+    }
+  ],
+  "preloadedCss": [
+    {
+      "path": "dist/h5p-transcript-library.css"
+    }
+  ]
+}

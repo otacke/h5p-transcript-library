@@ -1,0 +1,91 @@
+@import './../../../styles/main';
+
+$icon-button-visible-blue: url("./../../../assets/button-visible-icon-blue.svg");
+$icon-button-visible-grey: url("./../../../assets/button-visible-icon-grey.svg");
+$icon-button-invisible-blue: url("./../../../assets/button-invisible-icon-blue.svg");
+$icon-button-invisible-grey: url("./../../../assets/button-invisible-icon-grey.svg");
+$icon-button-autoscroll-blue: url("./../../../assets/button-autoscroll-icon-blue.svg");
+$icon-button-autoscroll-white: url("./../../../assets/button-autoscroll-icon-white.svg");
+$icon-button-autoscroll-grey: url("./../../../assets/button-autoscroll-icon-grey.svg");
+$icon-button-interactive-blue: url("./../../../assets/button-interactive-icon-blue.svg");
+$icon-button-interactive-grey: url("./../../../assets/button-interactive-icon-grey.svg");
+$icon-button-plaintext-blue: url("./../../../assets/button-plaintext-icon-blue.svg");
+$icon-button-plaintext-grey: url("./../../../assets/button-plaintext-icon-grey.svg");
+
+.toolbar-tool-bar {
+  align-items: center;
+  box-shadow: 10px 10px 30px $color-shadow-light;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  margin-bottom : .5em;
+  overflow: hidden;
+  padding: .5em;
+  width: 100%;
+
+  .toolbar-page-announcer {
+    color: $color-joubelui-button;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+  }
+
+  .toolbar-button {
+    &.toolbar-button-visibility {
+      &.toolbar-button-visible {
+        background-image: $icon-button-visible-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-visible-grey;
+        }
+      }
+
+      &.toolbar-button-invisible {
+        background-image: $icon-button-invisible-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-invisible-grey;
+        }
+      }
+    }
+
+    &.toolbar-button-autoscroll {
+      background-image: $icon-button-autoscroll-blue;
+
+      &.toolbar-button-disabled {
+        background-image: $icon-button-autoscroll-grey;
+      }
+
+      &.toolbar-button-active {
+        background-image: $icon-button-autoscroll-white;
+        background-color: $color-primary;
+
+        &.toolbar-button-disabled {
+          background-color: $color-disabled;
+        }
+
+        &:not(.toolbar-button-disabled):hover {
+          background-color: $color-primary-90;
+        }
+      }
+    }
+
+    &.toolbar-button-plaintext {
+      &.toolbar-button-interactive {
+        background-image: $icon-button-interactive-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-interactive-grey;
+        }
+      }
+
+      &.toolbar-button-not-interactive {
+        background-image: $icon-button-plaintext-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-plaintext-grey;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import './../../../styles/main';
+
+.h5p-transcript-snippet {
+  border: none;
+  color: #000;
+  display: inline;
+  font-size: 1em;
+  margin: 0;
+  padding: 0;
+
+  &:not(.highlight):not(:hover) {
+    background-color: transparent;
+  }
+
+  &.highlight {
+    background-color: $color-primary-30;
+  }
+
+  &:hover {
+    background-color: $color-primary;
+    color: $color-background;
+    cursor: pointer;
+  }
+}

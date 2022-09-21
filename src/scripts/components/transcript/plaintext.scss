@@ -1,0 +1,21 @@
+@import './../../../styles/main';
+
+.h5p-transcript-plaintext-container {
+  border: 1px solid $color-h5peditor-border;
+  line-height: 1.5em;
+  overflow-y: auto;
+
+  &.h5p-transcript-message {
+    background-color: $color-hint-message-background;
+    border: 1px solid $color-hint-message-border;
+    box-sizing: border-box;
+    color: $color-hint-message-text;
+    margin: 0;
+    padding: .8em;
+    text-align: center;
+  }
+
+  &.display-none {
+    display: none;
+  }
+}

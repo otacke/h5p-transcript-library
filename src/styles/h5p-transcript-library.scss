@@ -1,0 +1,27 @@
+@import './main';
+
+.h5p-transcript-library {
+  width: 100%;
+
+  &.display-none {
+    display: none;
+  }
+
+  .h5p-transcript-content {
+    .h5p-transcript-medium {
+      &.h5p-transcript-message {
+        background-color: $color-hint-message-background;
+        border: 1px solid $color-hint-message-border;
+        box-sizing: border-box;
+        color: $color-hint-message-text;
+        margin: 0;
+        padding: .8em;
+        text-align: center;
+      }
+
+      .h5p-audio.chrome-fix {
+        height: 54px;
+      }
+    }
+  }
+}
