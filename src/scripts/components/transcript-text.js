@@ -37,7 +37,9 @@ export default class TranscriptText {
     this.dom.classList.add('h5p-transcript-text-container');
 
     // Toolbar
-    this.toolbar = new Toolbar();
+    this.toolbar = new Toolbar({
+      hidden: this.params.toolbarHidden
+    });
 
     // Button: visibility
     this.toolbar.addButton({
@@ -369,6 +371,20 @@ export default class TranscriptText {
     // forceButton clicks the button
     this.isVisible = true;
     this.toolbar.forceButton('visibility', 1);
+  }
+
+  /**
+   * Show toolbar.
+   */
+  showToolbar() {
+    this.toolbar.show();
+  }
+
+  /**
+   * Show toolbar.
+   */
+  hideToolbar() {
+    this.toolbar.hide();
   }
 
   /**

@@ -61,7 +61,10 @@ where
   params: {
     instance: <H5P.ContentType>, // Content Type instance
     transcriptFile: <H5P file type of WebVTT file>, // https://h5p.org/semantics#type-file
-    behaviour: { maxLines: <number> }, // number of lines in transcript, optional
+    behaviour: {
+      maxLines: <number>, // number of lines in transcript, optional
+      toolbarHidden: <boolean> // If true, toolbar will be hidden, optional
+    },
     l10n: {
       noMedium: <string> // 'No medium was assigned to the transcript.',
       noTranscript: <string> // 'No transcript was provided.',
@@ -85,6 +88,8 @@ The user controls can be controlled programmatically, and there are some extras.
 
 - `show()`: Shows the complete transcript DOM.
 - `hide()`: Hides the complete transcript DOM including the toolbar.
+- `showToolbar()`: Shows the toolbar.
+- `hideToolbar()`: Hides the toolbar.
 - `showTranscripts()`: Shows the transcripts. Transcript DOM may still be hidden though.
 - `hideTranscripts()`: Hides the transcripts. Toolbar will remain visible.
 - `setAutoScrollActive(state : boolean)`: Turns autoscrolling on (`true`) or off (`false`).

@@ -8,13 +8,15 @@ export default class Toolbar {
   /**
    * @class
    * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.hidden=false] If true, hide toolbar.
    * @param {object} [callbacks={}] Callbacks.
    * @param {function} [callbacks.onClickButtonPreview] Callback preview button.
    * @param {function} [callbacks.onClickButtonExport] Callback export button.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      buttons: []
+      buttons: [],
+      hidden: false
     }, params);
 
     this.callbacks = Util.extend({
@@ -25,6 +27,9 @@ export default class Toolbar {
     // Build DOM
     this.toolBar = document.createElement('div');
     this.toolBar.classList.add('toolbar-tool-bar');
+    if (this.params.hidden) {
+      this.hide();
+    }
 
     this.params.buttons.forEach((button) => {
       this.addButton(button);
@@ -192,5 +197,19 @@ export default class Toolbar {
     }
 
     this.buttons[id].focus();
+  }
+
+  /**
+   * Show.
+   */
+  show() {
+    this.toolBar.classList.remove('display-none');
+  }
+
+  /**
+   * Hide.
+   */
+  hide() {
+    this.toolBar.classList.add('display-none');
   }
 }

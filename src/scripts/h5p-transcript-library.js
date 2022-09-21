@@ -73,7 +73,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         maxLines: this.params.behaviour.maxLines,
         ...(this.previousState.transcript &&
           { previousState: this.previousState.transcript }
-        )
+        ),
+        toolbarHidden: this.params.behaviour.toolbarHidden
       },
       {
         onPositionChanged: (time) => {
@@ -154,6 +155,22 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
    */
   hide() {
     this.dom.classList.add('display-none');
+    this.trigger('resize');
+  }
+
+  /**
+   * Show toolbar.
+   */
+  showToolbar() {
+    this.transcriptText.showToolbar();
+    this.trigger('resize');
+  }
+
+  /**
+   * Hide toolbar.
+   */
+  hideToolbar() {
+    this.transcriptText.hideToolbar();
     this.trigger('resize');
   }
 

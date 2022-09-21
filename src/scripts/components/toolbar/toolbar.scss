@@ -23,6 +23,10 @@ $icon-button-plaintext-grey: url("./../../../assets/button-plaintext-icon-grey.s
   padding: .5em;
   width: 100%;
 
+  &.display-none {
+    display: none;
+  }
+
   .toolbar-page-announcer {
     color: $color-joubelui-button;
     font-weight: bold;
