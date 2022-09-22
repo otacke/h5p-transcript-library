@@ -63,12 +63,37 @@ export default class TimeTracker {
 
     // Poll instance in regular intervals to get current time
     if (pollInstance && typeof pollInstance.getCurrentTime === 'function') {
-      this.trackingTimeout = setInterval(() => {
-        this.handleVideo(pollInstance);
-      }, TimeTracker.POLL_INTERVAL_MS);
-
+      this.poll(pollInstance);
       this.isTracking = true;
     }
+  }
+
+  /**
+   * Poll (in a timeout loop).
+   *
+   * @param {H5P.ContentType} pollInstance Poll instance.
+   * @param {number} timeout_ms Timeout.
+   */
+  poll(pollInstance, timeout_ms = TimeTracker.POLL_INTERVAL_MS) {
+    if (!pollInstance) {
+      return;
+    }
+
+    this.trackingTimeout = setTimeout(() => {
+      const starttime = performance.now();
+      this.handleVideo(pollInstance);
+      const endtime = performance.now();
+
+      // Gradually adjust timeout by +/- 10 % if required
+      if (endtime - starttime > timeout_ms) {
+        timeout_ms = timeout_ms * 1.1;
+      }
+      else if (timeout_ms > TimeTracker.POLL_INTERVAL_MS) {
+        timeout_ms = Math.max(TimeTracker.POLL_INTERVAL_MS, timeout_ms * 0.9);
+      }
+
+      this.poll(pollInstance, timeout_ms);
+    }, timeout_ms);
   }
 
   /**
@@ -88,7 +113,7 @@ export default class TimeTracker {
     }
 
     // Remove polling
-    clearInterval(this.trackingTimeout);
+    clearTimeout(this.trackingTimeout);
 
     this.isTracking = false;
   }
@@ -120,4 +145,4 @@ export default class TimeTracker {
 }
 
 /** @constant {number} Default poll interval in ms */
-TimeTracker.POLL_INTERVAL_MS = 250;
+TimeTracker.POLL_INTERVAL_MS = 100;
