@@ -77,6 +77,19 @@ export default class TranscriptSnippet {
   }
 
   /**
+   * Set passed style.
+   *
+   * @param {boolean} state If true, snipped was passed. If false not.
+   */
+  setPassed(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.dom.classList.toggle('was-passed', state);
+  }
+
+  /**
    * Focus snippet.
    */
   focus() {

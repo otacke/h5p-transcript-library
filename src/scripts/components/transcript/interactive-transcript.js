@@ -143,6 +143,8 @@ export default class InteractiveTranscript {
     }
 
     this.snippets.forEach((snippet, index) => {
+      snippet.setPassed(index < params.id );
+
       if (params.id === index) {
         snippet.highlight();
 
