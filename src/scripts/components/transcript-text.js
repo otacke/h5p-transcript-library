@@ -16,7 +16,6 @@ export default class TranscriptText {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       previousState: {},
-      buttons: ['visibility', 'plaintext', 'autoscroll', 'time']
     }, params);
 
     this.callbacks = Util.extend({

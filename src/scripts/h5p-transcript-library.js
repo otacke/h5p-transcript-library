@@ -42,6 +42,10 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       }
     }, params);
 
+    if (params?.behaviour?.buttons) {
+      this.params.behaviour.buttons = params.behaviour.buttons;
+    }
+
     this.contentId = contentId;
     this.extras = extras;
 
