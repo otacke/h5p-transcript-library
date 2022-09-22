@@ -88,7 +88,7 @@ export default class TimeTracker {
     }
 
     // Remove polling
-    clearTimeout(this.trackingTimeout);
+    clearInterval(this.trackingTimeout);
 
     this.isTracking = false;
   }
