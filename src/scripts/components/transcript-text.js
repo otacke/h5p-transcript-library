@@ -439,6 +439,24 @@ export default class TranscriptText {
   }
 
   /**
+   *
+   * @param {string} id Button's id.
+   * @param {boolean} state If true, show. If false, hide.
+   */
+  setButtonVisibility(id, state) {
+    if (typeof id !== 'string' || typeof state !== 'boolean') {
+      return;
+    }
+
+    if (state) {
+      this.toolbar.showButton(id);
+    }
+    else {
+      this.toolbar.hideButton(id);
+    }
+  }
+
+  /**
    * Reset.
    */
   reset() {

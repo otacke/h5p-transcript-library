@@ -219,6 +219,19 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
   }
 
   /**
+   *
+   * @param {string} id Button's id.
+   * @param {boolean} state If true, show. If false, hide.
+   */
+  setButtonVisibility(id, state) {
+    if (typeof id !== 'string' || typeof state !== 'boolean') {
+      return;
+    }
+
+    this.transcriptText.setButtonVisibility(id, state);
+  }
+
+  /**
    * Reset.
    */
   reset() {
