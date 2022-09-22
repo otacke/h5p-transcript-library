@@ -20,5 +20,12 @@
     {
       "path": "dist/h5p-transcript-library.css"
     }
+  ],
+  "preloadedDependencies": [
+    {
+      "machineName": "FontAwesome",
+      "majorVersion": 4,
+      "minorVersion": 5
+    }
   ]
 }

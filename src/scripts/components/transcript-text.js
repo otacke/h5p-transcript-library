@@ -40,15 +40,11 @@ export default class TranscriptText {
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-transcript-text-container');
 
-    // Toolbar
-    this.toolbar = new Toolbar({
-      hidden: this.params.toolbarHidden
-    });
-
+    const buttonParams = [];
     this.params.buttons.forEach((button) => {
       if (button === 'visibility') {
         // Button: visibility
-        this.toolbar.addButton({
+        buttonParams.push({
           id: 'visibility',
           type: 'pulse',
           pulseStates: [
@@ -60,11 +56,10 @@ export default class TranscriptText {
             this.handleVisibilityChanged();
           }
         });
-        this.dom.appendChild(this.toolbar.getDOM());
       }
       else if (button === 'plaintext') {
         // Button: plaintext/interactive transcript
-        this.toolbar.addButton({
+        buttonParams.push({
           id: 'plaintext',
           type: 'pulse',
           pulseStates: [
@@ -85,11 +80,10 @@ export default class TranscriptText {
             this.handleTranscriptModeChanged();
           }
         });
-        this.dom.appendChild(this.toolbar.getDOM());
       }
       else if (button === 'autoscroll') {
         // Button: autoscroll
-        this.toolbar.addButton({
+        buttonParams.push({
           id: 'autoscroll',
           type: 'toggle',
           active: this.isAutoScrollActive,
@@ -105,7 +99,7 @@ export default class TranscriptText {
       }
       else if (button === 'time') {
         // Button: time
-        this.toolbar.addButton({
+        buttonParams.push({
           id: 'time',
           type: 'toggle',
           active: this.isTimestampActive,
@@ -120,6 +114,22 @@ export default class TranscriptText {
         });
       }
     });
+
+    // Toolbar
+    this.toolbar = new Toolbar(
+      {
+        buttons: buttonParams,
+        hidden: this.params.toolbarHidden,
+        searchbox: this.params.searchbox
+      },
+      {
+        onSearchChanged: (text) => {
+          this.snippetsContainer.mark(text);
+          this.plaintextContainer.mark(text);
+        }
+      }
+    );
+    this.dom.appendChild(this.toolbar.getDOM());
 
     this.transcriptContainer = document.createElement('div');
     this.transcriptContainer.classList.add(
@@ -436,6 +446,20 @@ export default class TranscriptText {
    */
   hideToolbar() {
     this.toolbar.hide();
+  }
+
+  /**
+   * Show.
+   */
+  showSearchbox() {
+    this.toolbar.showSearchbox();
+  }
+
+  /**
+   * Hide.
+   */
+  hideSearchbox() {
+    this.toolbar.hideSearchbox();
   }
 
   /**

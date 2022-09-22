@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "he": "^1.2.0",
+    "mark.js": "^8.11.1",
     "webvtt-parser": "^2.2.0"
   }
 }

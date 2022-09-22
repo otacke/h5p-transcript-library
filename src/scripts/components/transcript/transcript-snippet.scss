@@ -25,4 +25,9 @@
     color: $color-background;
     cursor: pointer;
   }
+
+  mark {
+    background-color: $color-mark-background;
+    color: $color-mark-color
+  }
 }

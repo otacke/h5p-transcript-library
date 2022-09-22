@@ -26,94 +26,93 @@ $icon-button-time-grey: url("./../../../assets/button-time-icon-grey.svg");
   padding: .5em;
   width: 100%;
 
+  .toolbar-buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+    .toolbar-button {
+      &.toolbar-button-visibility {
+        &.toolbar-button-visible {
+          background-image: $icon-button-visible-blue;
+
+          &.toolbar-button-disabled {
+            background-image: $icon-button-visible-grey;
+          }
+        }
+
+        &.toolbar-button-invisible {
+          background-image: $icon-button-invisible-blue;
+
+          &.toolbar-button-disabled {
+            background-image: $icon-button-invisible-grey;
+          }
+        }
+      }
+
+      &.toolbar-button-autoscroll {
+        background-image: $icon-button-autoscroll-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-autoscroll-grey;
+        }
+
+        &.toolbar-button-active {
+          background-image: $icon-button-autoscroll-white;
+          background-color: $color-primary;
+
+          &.toolbar-button-disabled {
+            background-color: $color-disabled;
+          }
+
+          &:not(.toolbar-button-disabled):hover {
+            background-color: $color-primary-90;
+          }
+        }
+      }
+
+      &.toolbar-button-time {
+        background-image: $icon-button-time-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-time-grey;
+        }
+
+        &.toolbar-button-active {
+          background-image: $icon-button-time-white;
+          background-color: $color-primary;
+
+          &.toolbar-button-disabled {
+            background-color: $color-disabled;
+          }
+
+          &:not(.toolbar-button-disabled):hover {
+            background-color: $color-primary-90;
+          }
+        }
+      }
+
+      &.toolbar-button-plaintext {
+        &.toolbar-button-interactive {
+          background-image: $icon-button-interactive-blue;
+
+          &.toolbar-button-disabled {
+            background-image: $icon-button-interactive-grey;
+          }
+        }
+
+        &.toolbar-button-not-interactive {
+          background-image: $icon-button-plaintext-blue;
+
+          &.toolbar-button-disabled {
+            background-image: $icon-button-plaintext-grey;
+          }
+        }
+      }
+    }
+  }
+
   &.display-none {
     display: none;
-  }
-
-  .toolbar-page-announcer {
-    color: $color-joubelui-button;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-  }
-
-  .toolbar-button {
-    &.toolbar-button-visibility {
-      &.toolbar-button-visible {
-        background-image: $icon-button-visible-blue;
-
-        &.toolbar-button-disabled {
-          background-image: $icon-button-visible-grey;
-        }
-      }
-
-      &.toolbar-button-invisible {
-        background-image: $icon-button-invisible-blue;
-
-        &.toolbar-button-disabled {
-          background-image: $icon-button-invisible-grey;
-        }
-      }
-    }
-
-    &.toolbar-button-autoscroll {
-      background-image: $icon-button-autoscroll-blue;
-
-      &.toolbar-button-disabled {
-        background-image: $icon-button-autoscroll-grey;
-      }
-
-      &.toolbar-button-active {
-        background-image: $icon-button-autoscroll-white;
-        background-color: $color-primary;
-
-        &.toolbar-button-disabled {
-          background-color: $color-disabled;
-        }
-
-        &:not(.toolbar-button-disabled):hover {
-          background-color: $color-primary-90;
-        }
-      }
-    }
-
-    &.toolbar-button-time {
-      background-image: $icon-button-time-blue;
-
-      &.toolbar-button-disabled {
-        background-image: $icon-button-time-grey;
-      }
-
-      &.toolbar-button-active {
-        background-image: $icon-button-time-white;
-        background-color: $color-primary;
-
-        &.toolbar-button-disabled {
-          background-color: $color-disabled;
-        }
-
-        &:not(.toolbar-button-disabled):hover {
-          background-color: $color-primary-90;
-        }
-      }
-    }
-
-    &.toolbar-button-plaintext {
-      &.toolbar-button-interactive {
-        background-image: $icon-button-interactive-blue;
-
-        &.toolbar-button-disabled {
-          background-image: $icon-button-interactive-grey;
-        }
-      }
-
-      &.toolbar-button-not-interactive {
-        background-image: $icon-button-plaintext-blue;
-
-        &.toolbar-button-disabled {
-          background-image: $icon-button-plaintext-grey;
-        }
-      }
-    }
   }
 }

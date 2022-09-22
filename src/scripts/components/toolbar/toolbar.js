@@ -1,5 +1,6 @@
 import './toolbar.scss';
 import ToolbarButton from './toolbar-button';
+import SearchBox from './search-box';
 import Util from './../../util';
 
 /** Class representing the button bar */
@@ -16,10 +17,12 @@ export default class Toolbar {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       buttons: [],
-      hidden: false
+      hidden: false,
+      searchbox: true
     }, params);
 
     this.callbacks = Util.extend({
+      onSearchChanged: () => {}
     }, callbacks);
 
     this.buttons = {};
@@ -31,9 +34,15 @@ export default class Toolbar {
       this.hide();
     }
 
+    this.buttonsContainer = document.createElement('div');
+    this.buttonsContainer.classList.add('toolbar-buttons');
+    this.toolBar.appendChild(this.buttonsContainer);
+
     this.params.buttons.forEach((button) => {
       this.addButton(button);
     });
+
+    this.addSearchBox({ visible: this.params.searchbox });
   }
 
   /**
@@ -75,7 +84,25 @@ export default class Toolbar {
         })
       }
     );
-    this.toolBar.appendChild(this.buttons[button.id].getDOM());
+    this.buttonsContainer.appendChild(this.buttons[button.id].getDOM());
+  }
+
+  /**
+   * Add search box.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {boolean} [params.visible] If true, visible. If false, not.
+   */
+  addSearchBox(params = {}) {
+    this.searchbox = new SearchBox(
+      { visible: params.visible },
+      {
+        onSearchChanged: (text) => {
+          this.callbacks.onSearchChanged(text);
+        }
+      }
+    );
+    this.toolBar.appendChild(this.searchbox.getDOM());
   }
 
   /**
@@ -211,5 +238,19 @@ export default class Toolbar {
    */
   hide() {
     this.toolBar.classList.add('display-none');
+  }
+
+  /**
+   * Show.
+   */
+  showSearchbox() {
+    this.searchbox.show();
+  }
+
+  /**
+   * Hide.
+   */
+  hideSearchbox() {
+    this.searchbox.hide();
   }
 }

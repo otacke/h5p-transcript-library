@@ -18,4 +18,9 @@
   &.display-none {
     display: none;
   }
+
+  mark {
+    background-color: $color-mark-background;
+    color: $color-mark-color
+  }
 }

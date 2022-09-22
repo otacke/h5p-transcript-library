@@ -1,5 +1,6 @@
 import './plaintext.scss';
 import Util from './../../util';
+import Mark from 'mark.js';
 
 export default class Plaintext {
   /**
@@ -16,6 +17,8 @@ export default class Plaintext {
     // Container for plaintext transcript
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-transcript-plaintext-container');
+
+    this.markInstance = new Mark(this.dom);
   }
 
   /**
@@ -35,6 +38,20 @@ export default class Plaintext {
   setText(text) {
     this.dom.classList.remove('h5p-transcript-message');
     this.dom.innerText = text;
+  }
+
+  /**
+   * Mark text.
+   *
+   * @param {string} text Text to mark.
+   */
+  mark(text) {
+    if (typeof text !== 'string') {
+      return;
+    }
+
+    this.markInstance.unmark();
+    this.markInstance.mark(text);
   }
 
   /**

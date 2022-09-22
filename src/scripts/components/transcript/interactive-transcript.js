@@ -159,6 +159,17 @@ export default class InteractiveTranscript {
   }
 
   /**
+   * Mark text in snippets.
+   *
+   * @param {string} text Text to mark.
+   */
+  mark(text) {
+    this.snippets.forEach((snippet) => {
+      snippet.mark(text);
+    });
+  }
+
+  /**
    * Handle setting for autoscroll changed.
    *
    * @param {boolean} state If true, activate autoscroll.

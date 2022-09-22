@@ -19,7 +19,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       transcriptFile: {},
       behaviour: {
         maxLines: 10,
-        buttons: ['visibility', 'plaintext', 'autoscroll', 'time']
+        buttons: ['visibility', 'plaintext', 'autoscroll', 'time'],
+        searchbox: true
       },
       l10n: {
         noMedium: 'No medium was assigned to the transcript.',
@@ -38,7 +39,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         buttonTimeActive: 'Hide start time. Currently shown.',
         buttonTimeInactive: 'Show start time. Currently not shown.',
         buttonTimeDisabled: 'Start time option disabled.',
-        interactiveTranscript: 'Interactive transcript'
+        interactiveTranscript: 'Interactive transcript',
+        enterToHighlight: 'Enter a query to highlight relevant text.'
       }
     }, params);
 
@@ -83,7 +85,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
           { previousState: this.previousState.transcript }
         ),
         toolbarHidden: this.params.behaviour.toolbarHidden,
-        buttons: this.params.behaviour.buttons
+        buttons: this.params.behaviour.buttons,
+        searchbox: this.params.behaviour.searchbox
       },
       {
         onPositionChanged: (time) => {
@@ -181,6 +184,20 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
   hideToolbar() {
     this.transcriptText.hideToolbar();
     this.trigger('resize');
+  }
+
+  /**
+   * Show.
+   */
+  showSearchbox() {
+    this.transcriptText.showSearchbox();
+  }
+
+  /**
+   * Hide.
+   */
+  hideSearchbox() {
+    this.transcriptText.hideSearchbox();
   }
 
   /**

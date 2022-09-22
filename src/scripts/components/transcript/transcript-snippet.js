@@ -1,5 +1,6 @@
 import './transcript-snippet.scss';
 import Util from './../../util';
+import Mark from 'mark.js';
 
 /** Class for a text snippet */
 export default class TranscriptSnippet {
@@ -41,6 +42,8 @@ export default class TranscriptSnippet {
         this.callbacks.onSelected(1);
       }
     });
+
+    this.markInstance = new Mark(this.dom);
   }
 
   /**
@@ -74,6 +77,27 @@ export default class TranscriptSnippet {
    */
   unhighlight() {
     this.dom.classList.remove('highlight');
+  }
+
+  /**
+   * Mark text.
+   *
+   * @param {string} text Text to mark.
+   */
+  mark(text) {
+    if (typeof text !== 'string') {
+      return;
+    }
+
+    this.markInstance.unmark();
+    this.markInstance.mark(text);
+  }
+
+  /**
+   * Unmark text.
+   */
+  unmark() {
+    this.markInstance.unmark();
   }
 
   /**
