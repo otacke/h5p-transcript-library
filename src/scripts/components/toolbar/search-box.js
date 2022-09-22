@@ -27,7 +27,7 @@ export default class SearchBox {
 
     const searchBox = document.createElement('input');
     searchBox.classList.add('searchbox-input');
-    searchBox.setAttribute('aria-label', Dictionary.get('enterToHighlight'));
+    searchBox.setAttribute('aria-label', Dictionary.get('a11y.enterToHighlight'));
     searchBox.addEventListener('keyup', () => {
       this.callbacks.onSearchChanged(searchBox.value);
     });
