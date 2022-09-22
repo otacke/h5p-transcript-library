@@ -64,7 +64,7 @@ where
     behaviour: {
       maxLines: <number>, // number of lines in transcript, optional
       toolbarHidden: <boolean>, // If true, toolbar will be hidden, optional,
-      buttons: <string[]> // Buttons to display in toolbar, default: ['visibility', 'plaintext', 'autoscroll']
+      buttons: <string[]> // Buttons to display in toolbar, default: ['visibility', 'plaintext', 'autoscroll', 'time']
     },
     l10n: {
       noMedium: <string> // 'No medium was assigned to the transcript.',
@@ -95,6 +95,6 @@ The user controls can be controlled programmatically, and there are some extras.
 - `hideTranscripts()`: Hides the transcripts. Toolbar will remain visible.
 - `setAutoScrollActive(state : boolean)`: Turns autoscrolling on (`true`) or off (`false`).
 - `setInteractive(state : number)`: Sets the transcript mode (0: interactive transcript, 1: plain text).
-- `setButtonVisibility(id : string, state: boolean)`: Show (state = `true`) or hide (state = `false`) button with id ('visibility', 'plaintext', 'autoscroll').
+- `setButtonVisibility(id : string, state: boolean)`: Show (state = `true`) or hide (state = `false`) button with id ('visibility', 'plaintext', 'autoscroll', 'time').
 - `reset()`: Resets to default values (transcripts visible, autoscrolling: on, interactiv transcript).
 - `getCurrentState() : object`: Returns the current state just like an H5P content type would.

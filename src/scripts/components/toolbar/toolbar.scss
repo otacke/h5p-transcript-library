@@ -11,6 +11,9 @@ $icon-button-interactive-blue: url("./../../../assets/button-interactive-icon-bl
 $icon-button-interactive-grey: url("./../../../assets/button-interactive-icon-grey.svg");
 $icon-button-plaintext-blue: url("./../../../assets/button-plaintext-icon-blue.svg");
 $icon-button-plaintext-grey: url("./../../../assets/button-plaintext-icon-grey.svg");
+$icon-button-time-blue: url("./../../../assets/button-time-icon-blue.svg");
+$icon-button-time-white: url("./../../../assets/button-time-icon-white.svg");
+$icon-button-time-grey: url("./../../../assets/button-time-icon-grey.svg");
 
 .toolbar-tool-bar {
   align-items: center;
@@ -62,6 +65,27 @@ $icon-button-plaintext-grey: url("./../../../assets/button-plaintext-icon-grey.s
 
       &.toolbar-button-active {
         background-image: $icon-button-autoscroll-white;
+        background-color: $color-primary;
+
+        &.toolbar-button-disabled {
+          background-color: $color-disabled;
+        }
+
+        &:not(.toolbar-button-disabled):hover {
+          background-color: $color-primary-90;
+        }
+      }
+    }
+
+    &.toolbar-button-time {
+      background-image: $icon-button-time-blue;
+
+      &.toolbar-button-disabled {
+        background-image: $icon-button-time-grey;
+      }
+
+      &.toolbar-button-active {
+        background-image: $icon-button-time-white;
         background-color: $color-primary;
 
         &.toolbar-button-disabled {

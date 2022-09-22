@@ -16,7 +16,7 @@ export default class TranscriptText {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       previousState: {},
-      buttons: ['visibility', 'plaintext', 'autoscroll']
+      buttons: ['visibility', 'plaintext', 'autoscroll', 'time']
     }, params);
 
     this.callbacks = Util.extend({
@@ -33,6 +33,10 @@ export default class TranscriptText {
     // Autoscroll on/off
     this.isAutoScrollActive = this.params.previousState.isAutoScrollActive ??
       true;
+
+    // Autoscroll on/off
+    this.isTimestampActive = this.params.previousState.isTimestampActive ??
+      false;
 
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-transcript-text-container');
@@ -100,6 +104,22 @@ export default class TranscriptText {
           }
         });
       }
+      else if (button === 'time') {
+        // Button: time
+        this.toolbar.addButton({
+          id: 'time',
+          type: 'toggle',
+          active: this.isTimestampActive,
+          a11y: {
+            active: Dictionary.get('a11y.buttonTimeActive'),
+            inactive: Dictionary.get('a11y.buttonTimeInactive'),
+            disabled: Dictionary.get('a11y.buttonTimeDisabled')
+          },
+          onClick: (event, params = {}) => {
+            this.handleTimestampChanged(params.active);
+          }
+        });
+      }
     });
 
     this.transcriptContainer = document.createElement('div');
@@ -112,7 +132,8 @@ export default class TranscriptText {
     this.snippetsContainer = new InteractiveTranscript(
       {
         maxLines: this.params.maxLines,
-        scrollSnippetsIntoView: this.isAutoScrollActive
+        scrollSnippetsIntoView: this.isAutoScrollActive,
+        showTimestamp: this.isTimestampActive
       },
       {
         onPositionChanged: (params) => {
@@ -258,6 +279,20 @@ export default class TranscriptText {
   }
 
   /**
+   * Handle setting for timestamp changed.
+   *
+   * @param {boolean} state If true, activate timestamp.
+   */
+  handleTimestampChanged(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.isTimestampActive = state;
+    this.snippetsContainer.setTimestamp(state);
+  }
+
+  /**
    * Handle setting for transcript mode changed.
    */
   handleTranscriptModeChanged() {
@@ -266,11 +301,15 @@ export default class TranscriptText {
     if (this.isInteractive) {
       if (this.isVisible) {
         this.snippetsContainer.show();
+        this.toolbar.enableButton('autoscroll');
+        this.toolbar.enableButton('time');
       }
       this.plaintextContainer.hide();
     }
     else {
       this.snippetsContainer.hide();
+      this.toolbar.disableButton('autoscroll');
+      this.toolbar.disableButton('time');
       if (this.isVisible) {
         this.plaintextContainer.show();
       }
@@ -284,12 +323,13 @@ export default class TranscriptText {
     this.isVisible = !this.isVisible;
 
     if (this.isVisible) {
-      this.toolbar.enableButton('autoscroll');
       this.toolbar.enableButton('plaintext');
 
       if (this.isInteractive) {
         this.snippetsContainer.show();
         this.plaintextContainer.hide();
+        this.toolbar.enableButton('autoscroll');
+        this.toolbar.enableButton('time');
       }
       else {
         this.snippetsContainer.hide();
@@ -299,6 +339,7 @@ export default class TranscriptText {
     else {
       this.toolbar.disableButton('autoscroll');
       this.toolbar.disableButton('plaintext');
+      this.toolbar.disableButton('time');
 
       this.snippetsContainer.hide();
       this.plaintextContainer.hide();
@@ -361,7 +402,8 @@ export default class TranscriptText {
     return {
       isVisible: this.isVisible,
       isAutoScrollActive: this.isAutoScrollActive,
-      isInteractive: this.isInteractive
+      isInteractive: this.isInteractive,
+      isTimestampActive: this.isTimestampActive
     };
   }
 
@@ -418,6 +460,26 @@ export default class TranscriptText {
   }
 
   /**
+   * Set autoscroll state.
+   *
+   * @param {boolean} state True: active. False: inactive.
+   */
+  setTimestampActive(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    if (state) {
+      this.isTimestampActive = false;
+      this.toolbar.forceButton('time', true);
+    }
+    else {
+      this.isTimestampActive = true;
+      this.toolbar.forceButton('time', false);
+    }
+  }
+
+  /**
    * Set transcript state.
    *
    * @param {number} state 0 = interactive, 1 = plaintext.
@@ -463,6 +525,7 @@ export default class TranscriptText {
     this.show();
     this.setAutoScrollActive(true);
     this.setInteractive(TranscriptText.MODE_INTERACTIVE_TRANSCRIPT);
+    this.setTimestampActive(false);
 
     this.snippetsContainer.reset();
     this.plaintextContainer.reset();

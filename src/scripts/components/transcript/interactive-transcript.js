@@ -18,6 +18,7 @@ export default class InteractiveTranscript {
 
     this.snippets = [];
     this.scrollSnippetsIntoView = this.params.scrollSnippetsIntoView;
+    this.showTimestamp = this.params.showTimestamp;
     this.selectedSnippetIndex = 0;
 
     // Container for plaintext transcript
@@ -80,7 +81,8 @@ export default class InteractiveTranscript {
           id: index,
           text: cue.text.replace(/(?:\r\n|\r|\n)/g, ' '),
           startTime: cue.startTime,
-          endTime: cue.endTime
+          endTime: cue.endTime,
+          showTimestamp: this.showTimestamp
         },
         {
           onClicked: (params) => {
@@ -165,6 +167,23 @@ export default class InteractiveTranscript {
     }
 
     this.scrollSnippetsIntoView = state;
+  }
+
+  /**
+   * Handle setting for autoscroll changed.
+   *
+   * @param {boolean} state If true, activate autoscroll.
+   */
+  setTimestamp(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.showTimestamp = state;
+
+    this.snippets.forEach((snippet) => {
+      snippet.setTimestamp(state);
+    });
   }
 
   /**

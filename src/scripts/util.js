@@ -69,4 +69,33 @@ export default class Util {
 
     return languageCode;
   }
+
+  /**
+   * Convert time in milliseconds to timecode.
+   *
+   * @param {number} seconds The time in milliSeconds.
+   * @returns {string} The humanized timecode.
+   */
+  static toTimecode(seconds) {
+    if (typeof seconds !== 'number' || seconds < 0) {
+      return;
+    }
+
+    seconds = Math.floor(seconds); // Ignore ms
+
+    const hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
+
+    const minutes = Math.floor(seconds / 60);
+    seconds -= minutes * 60;
+
+    let timecode = '';
+    if (hours > 0) {
+      timecode = `${hours}:`;
+    }
+    timecode += (hours > 0 && minutes < 10) ? `0${minutes}:` : `${minutes}:`;
+    timecode += (seconds < 10) ? `0${seconds}` : `${seconds}`;
+
+    return timecode;
+  }
 }

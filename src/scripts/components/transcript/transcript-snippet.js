@@ -10,7 +10,8 @@ export default class TranscriptSnippet {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      text: ''
+      text: '',
+      showTimestamp: false
     }, params);
 
     this.callbacks = Util.extend({
@@ -20,7 +21,7 @@ export default class TranscriptSnippet {
 
     this.dom = document.createElement('li');
     this.dom.classList.add('h5p-transcript-snippet');
-    this.dom.innerText = params.text;
+    this.setTimestamp(this.params.showTimestamp);
 
     this.dom.addEventListener('click', (event) => {
       event.preventDefault();
@@ -93,6 +94,21 @@ export default class TranscriptSnippet {
     }
 
     this.dom.setAttribute('tabindex', (state) ? 0 : -1);
+  }
+
+  /**
+   * Show timestamp.
+   *
+   * @param {boolean} state If true, show. If false, hide.
+   */
+  setTimestamp(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.dom.innerText = state ?
+      `[${Util.toTimecode(this.params.startTime)}] ${this.params.text}` :
+      this.params.text;
   }
 
   /**

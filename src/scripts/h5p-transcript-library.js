@@ -19,7 +19,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       transcriptFile: {},
       behaviour: {
         maxLines: 10,
-        buttons: ['visibility', 'plaintext', 'autoscroll']
+        buttons: ['visibility', 'plaintext', 'autoscroll', 'time']
       },
       l10n: {
         noMedium: 'No medium was assigned to the transcript.',
@@ -35,6 +35,9 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         buttonInteractive: 'Switch to plaintext view',
         buttonPlaintext: 'Switch to interactive transcript view',
         buttonModeDisabled: 'Mode switching disabled.',
+        buttonTimeActive: 'Hide start time. Currently shown.',
+        buttonTimeInactive: 'Show start time. Currently not shown.',
+        buttonTimeDisabled: 'Start time option disabled.',
         interactiveTranscript: 'Interactive transcript'
       }
     }, params);
@@ -203,6 +206,19 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
     }
 
     this.transcriptText.setAutoScrollActive(state);
+  }
+
+  /**
+   * Set autoscroll active.
+   *
+   * @param {boolean} state If true, set active. If false, inactive.
+   */
+  setTimestampActive(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.transcriptText.setTimestampActive(state);
   }
 
   /**
