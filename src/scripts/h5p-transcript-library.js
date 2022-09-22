@@ -18,7 +18,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
     this.params = Util.extend({
       transcriptFile: {},
       behaviour: {
-        maxLines: 10
+        maxLines: 10,
+        buttons: ['visibility', 'plaintext', 'autoscroll']
       },
       l10n: {
         noMedium: 'No medium was assigned to the transcript.',
@@ -74,7 +75,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         ...(this.previousState.transcript &&
           { previousState: this.previousState.transcript }
         ),
-        toolbarHidden: this.params.behaviour.toolbarHidden
+        toolbarHidden: this.params.behaviour.toolbarHidden,
+        buttons: this.params.behaviour.buttons
       },
       {
         onPositionChanged: (time) => {

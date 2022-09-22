@@ -15,7 +15,8 @@ export default class TranscriptText {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      previousState: {}
+      previousState: {},
+      buttons: ['visibility', 'plaintext', 'autoscroll']
     }, params);
 
     this.callbacks = Util.extend({
@@ -41,57 +42,63 @@ export default class TranscriptText {
       hidden: this.params.toolbarHidden
     });
 
-    // Button: visibility
-    this.toolbar.addButton({
-      id: 'visibility',
-      type: 'pulse',
-      pulseStates: [
-        { id: 'visible', label: Dictionary.get('a11y.buttonVisible') },
-        { id: 'invisible', label: Dictionary.get('a11y.buttonInvisible')},
-      ],
-      pulseIndex: (this.isVisible) ? 0 : 1,
-      onClick: () => {
-        this.handleVisibilityChanged();
+    this.params.buttons.forEach((button) => {
+      if (button === 'visibility') {
+        // Button: visibility
+        this.toolbar.addButton({
+          id: 'visibility',
+          type: 'pulse',
+          pulseStates: [
+            { id: 'visible', label: Dictionary.get('a11y.buttonVisible') },
+            { id: 'invisible', label: Dictionary.get('a11y.buttonInvisible')},
+          ],
+          pulseIndex: (this.isVisible) ? 0 : 1,
+          onClick: () => {
+            this.handleVisibilityChanged();
+          }
+        });
+        this.dom.appendChild(this.toolbar.getDOM());
       }
-    });
-    this.dom.appendChild(this.toolbar.getDOM());
-
-    // Button: plaintext/interactive transcript
-    this.toolbar.addButton({
-      id: 'plaintext',
-      type: 'pulse',
-      pulseStates: [
-        {
-          id: 'interactive',
-          label: Dictionary.get('a11y.buttonInteractive')
-        },
-        {
-          id: 'not-interactive',
-          label: Dictionary.get('a11y.buttonPlaintext')
-        }
-      ],
-      a11y: {
-        disabled: Dictionary.get('a11y.buttonModeDisabled')
-      },
-      pulseIndex: (this.isInteractive) ? 0 : 1,
-      onClick: () => {
-        this.handleTranscriptModeChanged();
+      else if (button === 'plaintext') {
+        // Button: plaintext/interactive transcript
+        this.toolbar.addButton({
+          id: 'plaintext',
+          type: 'pulse',
+          pulseStates: [
+            {
+              id: 'interactive',
+              label: Dictionary.get('a11y.buttonInteractive')
+            },
+            {
+              id: 'not-interactive',
+              label: Dictionary.get('a11y.buttonPlaintext')
+            }
+          ],
+          a11y: {
+            disabled: Dictionary.get('a11y.buttonModeDisabled')
+          },
+          pulseIndex: (this.isInteractive) ? 0 : 1,
+          onClick: () => {
+            this.handleTranscriptModeChanged();
+          }
+        });
+        this.dom.appendChild(this.toolbar.getDOM());
       }
-    });
-    this.dom.appendChild(this.toolbar.getDOM());
-
-    // Button: autoscroll
-    this.toolbar.addButton({
-      id: 'autoscroll',
-      type: 'toggle',
-      active: this.isAutoScrollActive,
-      a11y: {
-        active: Dictionary.get('a11y.buttonAutoscrollActive'),
-        inactive: Dictionary.get('a11y.buttonAutoscrollInactive'),
-        disabled: Dictionary.get('a11y.buttonAutoscrollDisabled')
-      },
-      onClick: (event, params = {}) => {
-        this.handleAutoScrollChanged(params.active);
+      else if (button === 'autoscroll') {
+        // Button: autoscroll
+        this.toolbar.addButton({
+          id: 'autoscroll',
+          type: 'toggle',
+          active: this.isAutoScrollActive,
+          a11y: {
+            active: Dictionary.get('a11y.buttonAutoscrollActive'),
+            inactive: Dictionary.get('a11y.buttonAutoscrollInactive'),
+            disabled: Dictionary.get('a11y.buttonAutoscrollDisabled')
+          },
+          onClick: (event, params = {}) => {
+            this.handleAutoScrollChanged(params.active);
+          }
+        });
       }
     });
 
@@ -145,7 +152,7 @@ export default class TranscriptText {
       this.observer.observe(this.plaintextContainer.getDOM());
     }
     else {
-      this.toolbar.hideButton('autoscroll');      
+      this.toolbar.hideButton('autoscroll');
     }
   }
 

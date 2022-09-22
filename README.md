@@ -63,7 +63,8 @@ where
     transcriptFile: <H5P file type of WebVTT file>, // https://h5p.org/semantics#type-file
     behaviour: {
       maxLines: <number>, // number of lines in transcript, optional
-      toolbarHidden: <boolean> // If true, toolbar will be hidden, optional
+      toolbarHidden: <boolean>, // If true, toolbar will be hidden, optional,
+      buttons: <string[]> // Buttons to display in toolbar, currently 'visibility', 'plaintext', 'autoscroll'
     },
     l10n: {
       noMedium: <string> // 'No medium was assigned to the transcript.',
