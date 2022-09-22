@@ -333,6 +333,7 @@ export default class TranscriptText {
 
     if (this.isVisible) {
       this.toolbar.enableButton('plaintext');
+      this.toolbar.enableSearchbox();
 
       if (this.isInteractive) {
         this.snippetsContainer.show();
@@ -349,6 +350,7 @@ export default class TranscriptText {
       this.toolbar.disableButton('autoscroll');
       this.toolbar.disableButton('plaintext');
       this.toolbar.disableButton('time');
+      this.toolbar.disableSearchbox();
 
       this.snippetsContainer.hide();
       this.plaintextContainer.hide();
@@ -449,14 +451,14 @@ export default class TranscriptText {
   }
 
   /**
-   * Show.
+   * Show search box.
    */
   showSearchbox() {
     this.toolbar.showSearchbox();
   }
 
   /**
-   * Hide.
+   * Hide search box.
    */
   hideSearchbox() {
     this.toolbar.hideSearchbox();

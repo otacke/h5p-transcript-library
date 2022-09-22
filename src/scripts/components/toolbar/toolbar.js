@@ -241,16 +241,30 @@ export default class Toolbar {
   }
 
   /**
-   * Show.
+   * Show search box.
    */
   showSearchbox() {
     this.searchbox.show();
   }
 
   /**
-   * Hide.
+   * Hide search box.
    */
   hideSearchbox() {
     this.searchbox.hide();
+  }
+
+  /**
+   * Enable search box.
+   */
+  enableSearchbox() {
+    this.searchbox.enable();
+  }
+
+  /**
+   * Disable search box.
+   */
+  disableSearchbox() {
+    this.searchbox.disable();
   }
 }

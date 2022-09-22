@@ -25,13 +25,13 @@ export default class SearchBox {
     icon.classList.add('searchbox-icon');
     this.dom.appendChild(icon);
 
-    const searchBox = document.createElement('input');
-    searchBox.classList.add('searchbox-input');
-    searchBox.setAttribute('aria-label', Dictionary.get('a11y.enterToHighlight'));
-    searchBox.addEventListener('keyup', () => {
-      this.callbacks.onSearchChanged(searchBox.value);
+    this.inputField = document.createElement('input');
+    this.inputField.classList.add('searchbox-input');
+    this.inputField.setAttribute('aria-label', Dictionary.get('a11y.enterToHighlight'));
+    this.inputField.addEventListener('keyup', () => {
+      this.callbacks.onSearchChanged(this.inputField.value);
     });
-    this.dom.appendChild(searchBox);
+    this.dom.appendChild(this.inputField);
   }
 
   /**
@@ -55,5 +55,23 @@ export default class SearchBox {
    */
   hide() {
     this.dom.classList.add('display-none');
+  }
+
+  /**
+   * Enable.
+   */
+  enable() {
+    this.inputField.classList.remove('disabled');
+    this.inputField.removeAttribute('readonly');
+    this.inputField.setAttribute('aria-label', Dictionary.get('a11y.enterToHighlight'));
+  }
+
+  /**
+   * Enable.
+   */
+  disable() {
+    this.inputField.classList.add('disabled');
+    this.inputField.setAttribute('readonly', 'readonly');
+    this.inputField.setAttribute('aria-label', Dictionary.get('a11y.searchboxDisabled'));
   }
 }

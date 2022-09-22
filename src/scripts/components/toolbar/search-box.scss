@@ -28,8 +28,7 @@
 
   .searchbox-input {
     font-size: 1em;
-    border: 1px solid #c7c7c7;
-    // border-radius: 1em;
+    border: 1px solid $color-grey-light;
     box-shadow: inset 0 0 0.25em rgb(0 0 0 / 20%);
     box-sizing: border-box;
     flex: 0 0 auto;
@@ -37,8 +36,13 @@
     padding: .25em .4em .25em 2em;
     width: 100%;
 
-    &:focus {
-      border-color:#3ba0f2;
+    &.disabled {
+      background-color: rgba(239, 239, 239, 0.3);
+      color: $color-grey-medium;
+    }
+
+    &:not(.disabled):focus {
+      border-color: $color-primary-50;
       outline: none;
     }
   }
