@@ -24,6 +24,10 @@
       font-family: 'H5PFontAwesome4';
       top: 0;
     }
+
+    &:not(.disabled):hover {
+      cursor: text;
+    }
   }
 
   .searchbox-input {
@@ -39,6 +43,7 @@
     &.disabled {
       background-color: rgba(239, 239, 239, 0.3);
       color: $color-grey-medium;
+      cursor: auto;
     }
 
     &:not(.disabled):focus {

@@ -21,9 +21,12 @@ export default class SearchBox {
       this.hide();
     }
 
-    const icon = document.createElement('div');
-    icon.classList.add('searchbox-icon');
-    this.dom.appendChild(icon);
+    this.icon = document.createElement('div');
+    this.icon.classList.add('searchbox-icon');
+    this.icon.addEventListener('click', () => {
+      this.inputField.focus();
+    });
+    this.dom.appendChild(this.icon);
 
     this.inputField = document.createElement('input');
     this.inputField.classList.add('searchbox-input');
@@ -61,6 +64,7 @@ export default class SearchBox {
    * Enable.
    */
   enable() {
+    this.icon.classList.remove('disabled');
     this.inputField.classList.remove('disabled');
     this.inputField.removeAttribute('readonly');
     this.inputField.setAttribute('aria-label', Dictionary.get('a11y.enterToHighlight'));
@@ -70,6 +74,7 @@ export default class SearchBox {
    * Enable.
    */
   disable() {
+    this.icon.classList.add('disabled');
     this.inputField.classList.add('disabled');
     this.inputField.setAttribute('readonly', 'readonly');
     this.inputField.setAttribute('aria-label', Dictionary.get('a11y.searchboxDisabled'));
