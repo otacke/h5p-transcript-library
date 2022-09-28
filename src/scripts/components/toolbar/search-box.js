@@ -32,7 +32,10 @@ export default class SearchBox {
     this.inputField.classList.add('searchbox-input');
     this.inputField.setAttribute('aria-label', Dictionary.get('a11y.enterToHighlight'));
     this.inputField.addEventListener('keyup', () => {
-      this.callbacks.onSearchChanged(this.inputField.value);
+      clearTimeout(this.keyupTimeout);
+      this.keyupTimeout = setTimeout(() => {
+        this.callbacks.onSearchChanged(this.inputField.value);
+      }, 500); // Don't call on every quick key stroke
     });
     this.dom.appendChild(this.inputField);
   }
