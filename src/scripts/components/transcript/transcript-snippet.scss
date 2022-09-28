@@ -26,6 +26,13 @@
     cursor: pointer;
   }
 
+  .h5p-transcript-snippet-speaker {
+    font-weight: bold;
+    margin-right: .5em;
+  }
+
+  .h5p-transcript-snippet-text {}
+
   mark {
     background-color: $color-mark-background;
     color: $color-mark-color

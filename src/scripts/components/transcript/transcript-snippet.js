@@ -143,7 +143,8 @@ export default class TranscriptSnippet {
       return;
     }
 
-    this.dom.innerText = state ?
+    // Make sure to purify params.text
+    this.dom.innerHTML = state ?
       `[${Util.toTimecode(this.params.startTime)}] ${this.params.text}` :
       this.params.text;
   }

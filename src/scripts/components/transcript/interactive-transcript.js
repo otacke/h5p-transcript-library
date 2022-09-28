@@ -79,7 +79,7 @@ export default class InteractiveTranscript {
       const snippet = new TranscriptSnippet(
         {
           id: index,
-          text: cue.text.replace(/(?:\r\n|\r|\n)/g, ' '),
+          text: cue.text,
           startTime: cue.startTime,
           endTime: cue.endTime,
           showTimestamp: this.showTimestamp

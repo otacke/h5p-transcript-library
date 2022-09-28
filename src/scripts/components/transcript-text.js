@@ -5,6 +5,7 @@ import Plaintext from './transcript/plaintext';
 import Toolbar from './toolbar/toolbar';
 import Dictionary from './../services/dictionary';
 import { WebVTTParser } from 'webvtt-parser';
+import { stripHtml } from 'string-strip-html';
 
 /** Class for transcript */
 export default class TranscriptText {
@@ -385,21 +386,61 @@ export default class TranscriptText {
       return;
     }
 
+    webvtts.cues = webvtts.cues.map((cue) => {
+      // Purify strings
+      cue.text = stripHtml(cue.text, { ignoreTags: ['b', 'i', 'v'] }).result;
+
+      // Replace line breaks
+      cue.text = cue.text.replace(/(?:\r\n|\r|\n)/g, ' ');
+
+      return cue;
+    });
+
     // Build interactive transcript text.
-    this.snippetsContainer.setSnippets(
-      webvtts.cues
-        .map((cue) => {
-          cue.text = cue.text.replace(/(?:\r\n|\r|\n)/g, ' ');
-          return cue;
-        })
-    );
+    let snippets = JSON.parse(JSON.stringify(webvtts.cues));
+    snippets = snippets.map((cue) => {
+      // Style WebVTT voice tags, why is capturing group not working?
+      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
+      if (voice) {
+        const voiceTag = voice[0];
+        const speaker = voiceTag.substring(
+          voiceTag.indexOf(' ') + 1,
+          voiceTag.length - 1
+        );
+        const text = cue.text.substring(voiceTag.length);
+
+        cue.text =
+          `<span class="h5p-transcript-snippet-speaker">${speaker}</span>\
+          <span class="h5p-transcript-snippet-text">${text}</span>`;
+      }
+
+      return cue;
+    });
+    this.snippetsContainer.setSnippets(snippets);
 
     // Build transcript plain text.
-    this.plaintextContainer.setText(
-      webvtts.cues
-        .map((cue) => cue.text.replace(/(?:\r\n|\r|\n)/g, ' '))
-        .join(' ')
-    );
+    let plaintext = JSON.parse(JSON.stringify(webvtts.cues));
+    plaintext = plaintext.map((cue) => {
+      // Style WebVTT voice tags, why is capturing group not working?
+      cue.text = stripHtml(cue.text, { ignoreTags: ['v'] }).result;
+
+      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
+      if (voice) {
+        const voiceTag = voice[0];
+        const speaker = voiceTag.substring(
+          voiceTag.indexOf(' ') + 1,
+          voiceTag.length - 1
+        );
+        cue.text = cue.text.replace(
+          voiceTag,
+          `${speaker}: `
+        );
+      }
+
+      return cue.text;
+    }).join(' ');
+
+    this.plaintextContainer.setText(plaintext);
 
     this.callbacks.resize();
   }
