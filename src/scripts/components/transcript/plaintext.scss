@@ -5,6 +5,10 @@
   line-height: 1.5em;
   overflow-y: auto;
 
+  .h5p-transcript-plaintext-snippet {
+    margin: 0 0 .5em 0;
+  }
+
   &.h5p-transcript-message {
     background-color: $color-hint-message-background;
     border: 1px solid $color-hint-message-border;

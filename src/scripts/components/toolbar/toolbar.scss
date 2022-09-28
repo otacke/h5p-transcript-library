@@ -14,6 +14,9 @@ $icon-button-plaintext-grey: url("./../../../assets/button-plaintext-icon-grey.s
 $icon-button-time-blue: url("./../../../assets/button-time-icon-blue.svg");
 $icon-button-time-white: url("./../../../assets/button-time-icon-white.svg");
 $icon-button-time-grey: url("./../../../assets/button-time-icon-grey.svg");
+$icon-button-paragraph-blue: url("./../../../assets/button-paragraph-icon-blue.svg");
+$icon-button-paragraph-white: url("./../../../assets/button-paragraph-icon-white.svg");
+$icon-button-paragraph-grey: url("./../../../assets/button-paragraph-icon-grey.svg");
 
 .toolbar-tool-bar {
   align-items: center;
@@ -46,6 +49,27 @@ $icon-button-time-grey: url("./../../../assets/button-time-icon-grey.svg");
 
           &.toolbar-button-disabled {
             background-image: $icon-button-invisible-grey;
+          }
+        }
+      }
+
+      &.toolbar-button-linebreak {
+        background-image: $icon-button-paragraph-blue;
+
+        &.toolbar-button-disabled {
+          background-image: $icon-button-paragraph-grey;
+        }
+
+        &.toolbar-button-active {
+          background-image: $icon-button-paragraph-white;
+          background-color: $color-primary;
+
+          &.toolbar-button-disabled {
+            background-color: $color-disabled;
+          }
+
+          &:not(.toolbar-button-disabled):hover {
+            background-color: $color-primary-90;
           }
         }
       }

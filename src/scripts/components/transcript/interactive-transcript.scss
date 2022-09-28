@@ -18,13 +18,20 @@
   }
 
   .h5p-transcript-snippet-separator {
-    display: inline-block;
+    &:not(.h5p-transcript-snippet-separator-line-break) {
+      display: inline-block;
 
-    &::before {
-      color: $color-text-dark;
-      content: "\2022";
-      padding-left: .5em;
-      padding-right: .5em;
+      &::before {
+        color: $color-text-dark;
+        content: "\2022";
+        padding-left: .5em;
+        padding-right: .5em;
+      }
+    }
+
+    &.h5p-transcript-snippet-separator-line-break {
+      display: block;
+      margin-bottom: .5em;
     }
   }
 

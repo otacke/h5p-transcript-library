@@ -17,8 +17,10 @@ export default class InteractiveTranscript {
     }, callbacks);
 
     this.snippets = [];
+    this.separators = [];
     this.scrollSnippetsIntoView = this.params.scrollSnippetsIntoView;
     this.showTimestamp = this.params.showTimestamp;
+    this.showLineBreaks = this.params.showLineBreaks;
     this.selectedSnippetIndex = 0;
 
     // Container for plaintext transcript
@@ -72,6 +74,7 @@ export default class InteractiveTranscript {
     }
 
     this.snippets = [];
+    this.separators = [];
     this.dom.classList.remove('h5p-transcript-message');
     this.dom.innerHTML = '';
 
@@ -100,6 +103,13 @@ export default class InteractiveTranscript {
       if (index < cues.length - 1) {
         const separator = document.createElement('span');
         separator.classList.add('h5p-transcript-snippet-separator');
+        if (this.showLineBreaks) {
+          separator.classList.add(
+            'h5p-transcript-snippet-separator-line-break'
+          );
+        }
+
+        this.separators.push(separator);
         this.dom.appendChild(separator);
       }
     });
@@ -180,6 +190,24 @@ export default class InteractiveTranscript {
     }
 
     this.scrollSnippetsIntoView = state;
+  }
+
+  /**
+   * Handle setting for line breaks changed.
+   *
+   * @param {boolean} state If true, activate line breaks.
+   */
+  setLineBreaks(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.separators.forEach((separator) => {
+      separator.classList.toggle(
+        'h5p-transcript-snippet-separator-line-break',
+        state
+      );
+    });
   }
 
   /**

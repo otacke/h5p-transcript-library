@@ -19,7 +19,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       transcriptFile: {},
       behaviour: {
         maxLines: 10,
-        buttons: ['visibility', 'plaintext', 'autoscroll', 'time'],
+        buttons: ['visibility', 'plaintext', 'linebreak', 'autoscroll', 'time'],
         searchbox: true
       },
       l10n: {
@@ -39,6 +39,9 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         buttonTimeActive: 'Hide start time. Currently shown.',
         buttonTimeInactive: 'Show start time. Currently not shown.',
         buttonTimeDisabled: 'Start time option disabled.',
+        buttonLineBreakActive: 'Hide line breaks. Currently shown.',
+        buttonLineBreakInactive: 'Show line breaks. Currently not shown.',
+        buttonLineBreakDisabled: 'Line break option disabled.',
         interactiveTranscript: 'Interactive transcript',
         enterToHighlight: 'Enter a query to highlight relevant text.',
         searchboxDisabled: 'Search box disabled.'
@@ -231,7 +234,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
   }
 
   /**
-   * Set autoscroll active.
+   * Set autoscroll active/inactive.
    *
    * @param {boolean} state If true, set active. If false, inactive.
    */
@@ -241,6 +244,19 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
     }
 
     this.transcriptText.setTimestampActive(state);
+  }
+
+  /**
+   * Set line breaks active/inactive.
+   *
+   * @param {boolean} state If true, set active. If false, inactive.
+   */
+  setLineBreaksActive(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.transcriptText.setLineBreaksActive(state);
   }
 
   /**

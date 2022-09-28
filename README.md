@@ -64,7 +64,7 @@ where
     behaviour: {
       maxLines: <number>, // number of lines in transcript, optional
       toolbarHidden: <boolean>, // If true, toolbar will be hidden, optional,
-      buttons: <string[]> // Buttons to display in toolbar, default: ['visibility', 'plaintext', 'autoscroll', 'time'],
+      buttons: <string[]> // Buttons to display in toolbar, default: ['visibility', 'plaintext', 'linebreak', 'autoscroll', 'time'],
       searchbox: <boolean> // True by default. If false, don't show search box, optional
     },
     l10n: {
@@ -77,9 +77,19 @@ where
       buttonInvisible: <string> // 'Show transcript. Currently not visible.',
       buttonAutoscrollActive: <string> // 'Turn off autoscroll. Currently active.',
       buttonAutoscrollInactive: <string> // 'Turn on autoscroll. Currently not active.',
+      buttonAutoscrollDisabled: <string> // 'Autoscroll option disabled.',
       buttonInteractive: <string> // 'Switch to plaintext view',
       buttonPlaintext: <string> // 'Switch to interactive transcript view',
-      interactiveTranscript: <string> // 'Interactive transcript'
+      buttonModeDisabled: <string> // 'Mode switching disabled.',
+      buttonTimeActive: <string> // 'Hide start time. Currently shown.',
+      buttonTimeInactive: <string> // 'Show start time. Currently not shown.',
+      buttonTimeDisabled: <string> // 'Start time option disabled.',
+      buttonLineBreakActive: <string> // 'Hide line breaks. Currently shown.',
+      buttonLineBreakInactive: <string> // 'Show line breaks. Currently not shown.',
+      buttonLineBreakDisabled: <string> // 'Line break option disabled.',
+      interactiveTranscript: <string> // 'Interactive transcript',
+      enterToHighlight: <string> // 'Enter a query to highlight relevant text.',
+      searchboxDisabled: <string> // 'Search box disabled.'
     }
   }
 }
@@ -99,5 +109,7 @@ The user controls can be controlled programmatically, and there are some extras.
 - `hideTranscripts()`: Hides the transcripts. Toolbar will remain visible.
 - `setAutoScrollActive(state : boolean)`: Turns autoscrolling on (`true`) or off (`false`).
 - `setInteractive(state : number)`: Sets the transcript mode (0: interactive transcript, 1: plain text).
+- `setTimestampActive(state : boolean)`: Turns timestamps on (`true`) or off (`false`).
+- `setLineBreaksActive(state : boolean)`: Turns line breaks on (`true`) or off (`false`).
 - `reset()`: Resets to default values (transcripts visible, autoscrolling: on, interactive transcript, no start times).
 - `getCurrentState() : object`: Returns the current state just like an H5P content type would.

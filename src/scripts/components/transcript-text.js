@@ -38,6 +38,10 @@ export default class TranscriptText {
     this.isTimestampActive = this.params.previousState.isTimestampActive ??
       false;
 
+    // Linebreaks on/off
+    this.isLineBreakActive = this.params.previousState.isLineBreakActive ??
+      false;
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-transcript-text-container');
 
@@ -114,6 +118,22 @@ export default class TranscriptText {
           }
         });
       }
+      else if (button === 'linebreak') {
+        // Button: line break
+        buttonParams.push({
+          id: 'linebreak',
+          type: 'toggle',
+          active: this.isLineBreakActive,
+          a11y: {
+            active: Dictionary.get('a11y.buttonLineBreakActive'),
+            inactive: Dictionary.get('a11y.buttonLineBreakInactive'),
+            disabled: Dictionary.get('a11y.buttonLineBreakDisabled')
+          },
+          onClick: (event, params = {}) => {
+            this.handleLineBreakChanged(params.active);
+          }
+        });
+      }
     });
 
     // Toolbar
@@ -143,7 +163,8 @@ export default class TranscriptText {
       {
         maxLines: this.params.maxLines,
         scrollSnippetsIntoView: this.isAutoScrollActive,
-        showTimestamp: this.isTimestampActive
+        showTimestamp: this.isTimestampActive,
+        showLineBreaks: this.isLineBreakActive
       },
       {
         onPositionChanged: (params) => {
@@ -157,7 +178,10 @@ export default class TranscriptText {
     this.transcriptContainer.appendChild(this.snippetsContainer.getDOM());
 
     // Container for plaintext transcript
-    this.plaintextContainer = new Plaintext({ maxLines: this.params.maxLines });
+    this.plaintextContainer = new Plaintext({
+      maxLines: this.params.maxLines,
+      showLineBreaks: this.isLineBreakActive
+    });
     if (this.isInteractive) {
       this.plaintextContainer.hide();
     }
@@ -288,6 +312,16 @@ export default class TranscriptText {
     this.snippetsContainer.setAutoScroll(state);
   }
 
+  handleLineBreakChanged(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.isLineBreakActive = state;
+    this.snippetsContainer.setLineBreaks(state);
+    this.plaintextContainer.setLineBreaks(state);
+  }
+
   /**
    * Handle setting for timestamp changed.
    *
@@ -334,6 +368,7 @@ export default class TranscriptText {
 
     if (this.isVisible) {
       this.toolbar.enableButton('plaintext');
+      this.toolbar.enableButton('linebreak');
       this.toolbar.enableSearchbox();
 
       if (this.isInteractive) {
@@ -350,6 +385,7 @@ export default class TranscriptText {
     else {
       this.toolbar.disableButton('autoscroll');
       this.toolbar.disableButton('plaintext');
+      this.toolbar.disableButton('linebreak');
       this.toolbar.disableButton('time');
       this.toolbar.disableSearchbox();
 
@@ -438,9 +474,11 @@ export default class TranscriptText {
       }
 
       return cue.text;
-    }).join(' ');
+    });
 
-    this.plaintextContainer.setText(plaintext);
+    this.plaintextContainer.setText({
+      snippets: plaintext
+    });
 
     this.callbacks.resize();
   }
@@ -455,7 +493,8 @@ export default class TranscriptText {
       isVisible: this.isVisible,
       isAutoScrollActive: this.isAutoScrollActive,
       isInteractive: this.isInteractive,
-      isTimestampActive: this.isTimestampActive
+      isTimestampActive: this.isTimestampActive,
+      isLineBreakActive: this.isLineBreakActive
     };
   }
 
@@ -526,7 +565,7 @@ export default class TranscriptText {
   }
 
   /**
-   * Set autoscroll state.
+   * Set timestamp state.
    *
    * @param {boolean} state True: active. False: inactive.
    */
@@ -542,6 +581,26 @@ export default class TranscriptText {
     else {
       this.isTimestampActive = true;
       this.toolbar.forceButton('time', false);
+    }
+  }
+
+  /**
+   * Set line breaks state.
+   *
+   * @param {boolean} state True: active. False: inactive.
+   */
+  setLineBreaksActive(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    if (state) {
+      this.isLineBreakActive = false;
+      this.toolbar.forceButton('linebreak', true);
+    }
+    else {
+      this.isLineBreakActive = true;
+      this.toolbar.forceButton('linebreak', false);
     }
   }
 

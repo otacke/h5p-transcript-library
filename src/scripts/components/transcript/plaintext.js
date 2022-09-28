@@ -14,6 +14,9 @@ export default class Plaintext {
     this.params = Util.extend({}, params);
     this.callbacks = Util.extend({}, callbacks);
 
+    this.snippets = [];
+    this.showLinebreaks = this.params.showLineBreaks || false;
+
     // Container for plaintext transcript
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-transcript-plaintext-container');
@@ -31,13 +34,43 @@ export default class Plaintext {
   }
 
   /**
-   * Set text.
+   * Set text. Make sure it's purified!
    *
-   * @param {string} text Text to set.
+   * @param {object} [params={}] Parameters.
+   * @param {string[]} params.snippets Text snippets.
    */
-  setText(text) {
+  setText(params = {}) {
+    if (!Array.isArray(params.snippets)) {
+      return;
+    }
+
     this.dom.classList.remove('h5p-transcript-message');
-    this.dom.innerText = text;
+    this.snippets = params.snippets;
+
+    this.setLineBreaks(this.showLinebreaks || false);
+  }
+
+  /**
+   * Handle setting for line breaks changed.
+   *
+   * @param {boolean} state If true, activate line breaks.
+   */
+  setLineBreaks(state) {
+    if (typeof state !== 'boolean') {
+      return;
+    }
+
+    this.dom.innerHTML = this.snippets.reduce((text, snippet, index) => {
+      let displayText = state ?
+        `<p class="h5p-transcript-plaintext-snippet">${snippet}</p>` :
+        snippet;
+
+      if (index < this.snippets.length - 1) {
+        displayText = `${displayText} `;
+      }
+
+      return `${text}${displayText}`;
+    }, '');
   }
 
   /**
