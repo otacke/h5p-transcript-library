@@ -37,8 +37,8 @@ For more information on how to use those distribution files in H5P, please have 
 ## Using this library
 
 ### Instantiating
-This library was explicitly modelled to mimic an H5P content type, so you can
-use it as if you were instantiatin H5P subcontent type manually (see https://h5p.org/documentation/api/H5P.html#.newRunnable):
+This library was explicitly modeled to mimic an H5P content type, so you can
+use it as if you were instantiating H5P subcontent type manually (see https://h5p.org/documentation/api/H5P.html#.newRunnable):
 
 ```
 H5P.newRunnable(
@@ -51,7 +51,7 @@ H5P.newRunnable(
 ```
 where
 - `contentId` is required to be the current content's id,
-- `previousState` is `{ transcript: { isVisible: <boolean>, isAutoScrollActive: <boolean>, isInteractive: <boolean> } }`
+- `previousState` is `{ transcript: { isVisible: <boolean>, isAutoScrollActive: <boolean>, isInteractive: <boolean>, isTimestampActive: <boolean>, isLineBreakActive: <boolean> } }`
 - `dom` is the `HTMLElement` that the transcript should be attached to and
 - `params` is expected to follow:
 
