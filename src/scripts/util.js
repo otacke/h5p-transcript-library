@@ -74,7 +74,7 @@ export default class Util {
    * Convert time in milliseconds to timecode.
    *
    * @param {number} seconds The time in milliSeconds.
-   * @returns {string} The humanized timecode.
+   * @returns {string|undefined} The humanized timecode.
    */
   static toTimecode(seconds) {
     if (typeof seconds !== 'number' || seconds < 0) {
