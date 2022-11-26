@@ -12,6 +12,12 @@
     color: $color-primary;
   }
 
+  &:hover {
+    background-color: $color-primary;
+    color: $color-background;
+    cursor: pointer;
+  }
+
   &:not(.highlight):not(:hover) {
     background-color: transparent;
   }
@@ -20,18 +26,10 @@
     background-color: $color-primary-30;
   }
 
-  &:hover {
-    background-color: $color-primary;
-    color: $color-background;
-    cursor: pointer;
-  }
-
   .h5p-transcript-snippet-speaker {
     font-weight: bold;
     margin-right: .5em;
   }
-
-  .h5p-transcript-snippet-text {}
 
   mark {
     background-color: $color-mark-background;
