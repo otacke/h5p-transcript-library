@@ -248,6 +248,29 @@ export default class TranscriptText {
   }
 
   /**
+   * Set language code.
+   *
+   * @param {string} languageCode Language code as BCP-47.
+   */
+  setLanguageCode(languageCode) {
+    if (typeof languageCode !== 'string') {
+      return;
+    }
+
+    this.languageCode = languageCode;
+    this.transcriptContainer.setAttribute('lang', languageCode);
+  }
+
+  /**
+   * Get language code.
+   *
+   * @returns {string|null} languageCode Language code as BCP-47.
+   */
+  getLanguageCode() {
+    return this.languageCode || null;
+  }
+
+  /**
    * Highlight a snippet (while unhighlighting all others).
    *
    * @param {object} [params={}] Parameters.
@@ -267,6 +290,12 @@ export default class TranscriptText {
     fetch(path)
       .then((response) => response.text())
       .then((text) => {
+        // Try to extract language code from WebVTT file
+        const languageCodeMatches = text.match(/Language:\s*([a-z][a-z])/);
+        this.setLanguageCode(
+          languageCodeMatches && languageCodeMatches[1] || null
+        );
+
         const parser = new WebVTTParser();
         this.handleWebVTTLoaded(parser.parse(text || '', 'metadata'));
       });
@@ -437,12 +466,11 @@ export default class TranscriptText {
     const text = cues.map((cue) => cue.text).join(' ');
 
     // Try to automatically determine language of transcript text for a11y
-    const languageDetect = new LanguageDetect();
-    languageDetect.setLanguageType('iso2');
-    let languageCode = languageDetect.detect(text, 1)[0];
-    languageCode = languageCode ? languageCode[0] : null;
-    if (languageCode) {
-      this.transcriptContainer.setAttribute('lang', languageCode);
+    if (typeof this.getLanguageCode() !== 'string') {
+      const languageDetect = new LanguageDetect();
+      languageDetect.setLanguageType('iso2');
+      const languageInfo = languageDetect.detect(text, 1)[0];
+      this.setLanguageCode(languageInfo ? languageInfo[0] : null);
     }
 
     // Build interactive transcript text.
