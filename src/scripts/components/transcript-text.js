@@ -6,6 +6,7 @@ import Toolbar from './toolbar/toolbar';
 import Dictionary from './../services/dictionary';
 import { WebVTTParser } from 'webvtt-parser';
 import { stripHtml } from 'string-strip-html';
+import LanguageDetect from 'languagedetect';
 
 /** Class for transcript */
 export default class TranscriptText {
@@ -432,9 +433,20 @@ export default class TranscriptText {
       return cue;
     });
 
+    const cues = JSON.parse(JSON.stringify(webvtts.cues));
+    const text = cues.map((cue) => cue.text).join(' ');
+
+    // Try to automatically determine language of transcript text for a11y
+    const languageDetect = new LanguageDetect();
+    languageDetect.setLanguageType('iso2');
+    let languageCode = languageDetect.detect(text, 1)[0];
+    languageCode = languageCode ? languageCode[0] : null;
+    if (languageCode) {
+      this.transcriptContainer.setAttribute('lang', languageCode);
+    }
+
     // Build interactive transcript text.
-    let snippets = JSON.parse(JSON.stringify(webvtts.cues));
-    snippets = snippets.map((cue) => {
+    const snippets = cues.map((cue) => {
       // Style WebVTT voice tags, why is capturing group not working?
       let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
       if (voice) {
@@ -455,8 +467,7 @@ export default class TranscriptText {
     this.snippetsContainer.setSnippets(snippets);
 
     // Build transcript plain text.
-    let plaintext = JSON.parse(JSON.stringify(webvtts.cues));
-    plaintext = plaintext.map((cue) => {
+    const plaintext = cues.map((cue) => {
       // Style WebVTT voice tags, why is capturing group not working?
       cue.text = stripHtml(cue.text, { ignoreTags: ['v'] }).result;
 
@@ -476,9 +487,7 @@ export default class TranscriptText {
       return cue.text;
     });
 
-    this.plaintextContainer.setText({
-      snippets: plaintext
-    });
+    this.plaintextContainer.setText({ snippets: plaintext });
 
     this.callbacks.resize();
   }
