@@ -61,11 +61,9 @@ export default class Toolbar {
 
     this.addSearchBox({ visible: this.params.searchbox });
 
-    this.elements = [
-      ...Object.values(this.buttons),
-      this.selectbox,
-      this.searchbox
-    ].filter((element) => !!element);
+    // searchbox not part of elements, because then cursor keys don't work
+    this.elements = [...Object.values(this.buttons), this.selectbox]
+      .filter((element) => !!element);
 
     // Make first button active one
     Object.values(this.elements).forEach((element, index) => {
