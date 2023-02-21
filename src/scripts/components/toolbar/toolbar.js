@@ -31,19 +31,25 @@ export default class Toolbar {
     this.buttons = {};
 
     // Build DOM
-    this.toolBar = document.createElement('div');
-    this.toolBar.classList.add('toolbar-tool-bar');
+    this.dom = document.createElement('div');
+    this.dom.classList.add('toolbar-tool-bar');
+    this.dom.setAttribute('role', 'toolbar');
+
+    this.dom.addEventListener('keydown', (event) => {
+      this.handleKeydown(event);
+    });
+
     if (this.params.hidden) {
       this.hide();
     }
 
     this.buttonsContainer = document.createElement('div');
     this.buttonsContainer.classList.add('toolbar-buttons');
-    this.toolBar.appendChild(this.buttonsContainer);
+    this.dom.appendChild(this.buttonsContainer);
 
     this.nonButtonsContainer = document.createElement('div');
     this.nonButtonsContainer.classList.add('toolbar-non-buttons');
-    this.toolBar.appendChild(this.nonButtonsContainer);
+    this.dom.appendChild(this.nonButtonsContainer);
 
     this.params.buttons.forEach((button) => {
       this.addButton(button);
@@ -54,6 +60,18 @@ export default class Toolbar {
     }
 
     this.addSearchBox({ visible: this.params.searchbox });
+
+    this.elements = [
+      ...Object.values(this.buttons),
+      this.selectbox,
+      this.searchbox
+    ].filter((element) => !!element);
+
+    // Make first button active one
+    Object.values(this.elements).forEach((element, index) => {
+      element.setAttribute('tabindex', index === 0 ? '0' : '-1');
+    });
+    this.currentElementIndex = 0;
   }
 
   /**
@@ -62,7 +80,7 @@ export default class Toolbar {
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
-    return this.toolBar;
+    return this.dom;
   }
 
   /**
@@ -77,6 +95,7 @@ export default class Toolbar {
 
     this.buttons[button.id] = new ToolbarButton(
       {
+        id: button.id,
         ...(button.a11y && { a11y: button.a11y }),
         classes: ['toolbar-button', `toolbar-button-${button.id}`],
         ...(typeof button.disabled === 'boolean' && {
@@ -133,6 +152,55 @@ export default class Toolbar {
       }
     );
     this.nonButtonsContainer.appendChild(this.searchbox.getDOM());
+  }
+
+  /**
+   * Move button focus.
+   *
+   * @param {number} offset Offset to move position by.
+   */
+  moveElementFocus(offset) {
+    if (typeof offset !== 'number') {
+      return;
+    }
+    if (
+      this.currentElementIndex + offset < 0 ||
+      this.currentElementIndex + offset > Object.keys(this.elements).length - 1
+    ) {
+      return; // Don't cycle
+    }
+    Object.values(this.elements)[this.currentElementIndex]
+      .setAttribute('tabindex', '-1');
+    this.currentElementIndex = this.currentElementIndex + offset;
+    const focusElement = Object.values(this.elements)[this.currentElementIndex];
+    focusElement.setAttribute('tabindex', '0');
+    focusElement.focus();
+  }
+
+  /**
+   * Handle key down.
+   *
+   * @param {KeyboardEvent} event Keyboard event.
+   */
+  handleKeydown(event) {
+    if (event.code === 'ArrowLeft' || event.code === 'ArrowUp') {
+      this.moveElementFocus(-1);
+    }
+    else if (event.code === 'ArrowRight' || event.code === 'ArrowDown') {
+      this.moveElementFocus(1);
+    }
+    else if (event.code === 'Home') {
+      this.moveElementFocus(0 - this.currentElementIndex);
+    }
+    else if (event.code === 'End') {
+      this.moveElementFocus(
+        Object.keys(this.buttons).length - 1 - this.currentElementIndex
+      );
+    }
+    else {
+      return;
+    }
+    event.preventDefault();
   }
 
   /**
@@ -244,30 +312,24 @@ export default class Toolbar {
   }
 
   /**
-   * Focus a button.
-   *
-   * @param {string} id Button id.
+   * Focus an element.
    */
-  focus(id = '') {
-    if (!this.buttons[id] || this.buttons[id].isCloaked()) {
-      return; // Button not available
-    }
-
-    this.buttons[id].focus();
+  focus() {
+    Object.values(this.elements)[this.currentElementIndex]?.focus();
   }
 
   /**
    * Show.
    */
   show() {
-    this.toolBar.classList.remove('display-none');
+    this.dom.classList.remove('display-none');
   }
 
   /**
    * Hide.
    */
   hide() {
-    this.toolBar.classList.add('display-none');
+    this.dom.classList.add('display-none');
   }
 
   /**

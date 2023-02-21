@@ -82,4 +82,21 @@ export default class SearchBox {
     this.inputField.setAttribute('readonly', 'readonly');
     this.inputField.setAttribute('aria-label', Dictionary.get('a11y.searchboxDisabled'));
   }
+
+  /**
+   * Set attribute.
+   *
+   * @param {string} attribute Attribute key.
+   * @param {string} value Attribute value.
+   */
+  setAttribute(attribute, value) {
+    this.inputField.setAttribute(attribute, value);
+  }
+
+  /**
+   * Focus.
+   */
+  focus() {
+    this.inputField.focus();
+  }
 }

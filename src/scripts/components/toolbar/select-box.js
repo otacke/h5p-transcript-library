@@ -95,6 +95,23 @@ export default class SelectBox {
   }
 
   /**
+   * Set attribute.
+   *
+   * @param {string} attribute Attribute key.
+   * @param {string} value Attribute value.
+   */
+  setAttribute(attribute, value) {
+    this.selectField.setAttribute(attribute, value);
+  }
+
+  /**
+   * Focus.
+   */
+  focus() {
+    this.selectField.focus();
+  }
+
+  /**
    * Handle key down event.
    *
    * @param {KeyboardEvent} event Keydown event.
