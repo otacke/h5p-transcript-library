@@ -334,28 +334,28 @@ export default class Toolbar {
    * Show select field.
    */
   showSelectField() {
-    this.selectbox.show();
+    this.selectbox?.show();
   }
 
   /**
    * Hide select field.
    */
   hideSelectField() {
-    this.selectbox.hide();
+    this.selectbox?.hide();
   }
 
   /**
    * Enable select field.
    */
   enableSelectField() {
-    this.selectbox.enable();
+    this.selectbox?.enable();
   }
 
   /**
    * Disable select field.
    */
   disableSelectField() {
-    this.selectbox.disable();
+    this.selectbox?.disable();
   }
 
   /**
