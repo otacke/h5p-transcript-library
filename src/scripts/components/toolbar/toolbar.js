@@ -2,6 +2,7 @@ import './toolbar.scss';
 import ToolbarButton from './toolbar-button';
 import SearchBox from './search-box';
 import Util from './../../util';
+import SelectBox from './select-box';
 
 /** Class representing the button bar */
 export default class Toolbar {
@@ -11,18 +12,20 @@ export default class Toolbar {
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.hidden=false] If true, hide toolbar.
    * @param {object} [callbacks={}] Callbacks.
-   * @param {function} [callbacks.onClickButtonPreview] Callback preview button.
-   * @param {function} [callbacks.onClickButtonExport] Callback export button.
+   * @param {function} [callbacks.onSearchChanged] Search field changed.
+   * @param {function} [callbacks.onLanguageChanged] Language changed callback.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       buttons: [],
       hidden: false,
-      searchbox: true
+      searchbox: true,
+      selectbox: []
     }, params);
 
     this.callbacks = Util.extend({
-      onSearchChanged: () => {}
+      onSearchChanged: () => {},
+      onLanguageChanged: () => {}
     }, callbacks);
 
     this.buttons = {};
@@ -38,9 +41,17 @@ export default class Toolbar {
     this.buttonsContainer.classList.add('toolbar-buttons');
     this.toolBar.appendChild(this.buttonsContainer);
 
+    this.nonButtonsContainer = document.createElement('div');
+    this.nonButtonsContainer.classList.add('toolbar-non-buttons');
+    this.toolBar.appendChild(this.nonButtonsContainer);
+
     this.params.buttons.forEach((button) => {
       this.addButton(button);
     });
+
+    if (this.params.selectbox.options.length > 1) {
+      this.addSelectBox(this.params.selectbox);
+    }
 
     this.addSearchBox({ visible: this.params.searchbox });
   }
@@ -88,6 +99,25 @@ export default class Toolbar {
   }
 
   /**
+   * Add select box.
+   *
+   * @param {object} [params={}] Parameters.
+   * @param {string[]} params.options Options.
+   * @param {number} [params.selectedId] Index of selected option.
+   */
+  addSelectBox(params = {}) {
+    this.selectbox = new SelectBox(
+      params,
+      {
+        onChanged: (index) => {
+          this.callbacks.onLanguageChanged(index);
+        }
+      }
+    );
+    this.nonButtonsContainer.append(this.selectbox.getDOM());
+  }
+
+  /**
    * Add search box.
    *
    * @param {object} [params={}] Parameters.
@@ -102,7 +132,7 @@ export default class Toolbar {
         }
       }
     );
-    this.toolBar.appendChild(this.searchbox.getDOM());
+    this.nonButtonsContainer.appendChild(this.searchbox.getDOM());
   }
 
   /**
@@ -238,6 +268,34 @@ export default class Toolbar {
    */
   hide() {
     this.toolBar.classList.add('display-none');
+  }
+
+  /**
+   * Show select field.
+   */
+  showSelectField() {
+    this.selectbox.show();
+  }
+
+  /**
+   * Hide select field.
+   */
+  hideSelectField() {
+    this.selectbox.hide();
+  }
+
+  /**
+   * Enable select field.
+   */
+  enableSelectField() {
+    this.selectbox.enable();
+  }
+
+  /**
+   * Disable select field.
+   */
+  disableSelectField() {
+    this.selectbox.disable();
   }
 
   /**

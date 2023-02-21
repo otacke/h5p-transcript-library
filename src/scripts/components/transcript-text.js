@@ -43,6 +43,12 @@ export default class TranscriptText {
     this.isLineBreakActive = this.params.previousState.isLineBreakActive ??
       false;
 
+    // Previously selected transcript
+    this.selectedScriptId = this.params.previousState.selectedScriptId ?? 0;
+
+    // Available transcripts
+    this.transcripts = {};
+
     this.dom = document.createElement('div');
     this.dom.classList.add('h5p-transcript-text-container');
 
@@ -131,7 +137,7 @@ export default class TranscriptText {
             disabled: Dictionary.get('a11y.buttonLineBreakDisabled')
           },
           onClick: (event, params = {}) => {
-            this.handleLineBreakChanged(params.active);
+            this.setLineBreak(params.active);
           }
         });
       }
@@ -142,12 +148,20 @@ export default class TranscriptText {
       {
         buttons: buttonParams,
         hidden: this.params.toolbarHidden,
-        searchbox: this.params.searchbox
+        selectbox: {
+          options: this.params.transcriptFiles.map((file) => {
+            return Util.stripHTML(Util.htmlDecode(file.label));
+          }),
+          selectedId: this.selectedScriptId
+        },
+        searchbox: this.params.searchbox,
       },
       {
         onSearchChanged: (text) => {
-          this.snippetsContainer.mark(text);
-          this.plaintextContainer.mark(text);
+          this.highlightText(text);
+        },
+        onLanguageChanged: (index) => {
+          this.switchToTranscript(index);
         }
       }
     );
@@ -224,12 +238,12 @@ export default class TranscriptText {
   /**
    * Initialize.
    */
-  initialize() {
+  async initialize() {
     const errorMessages = [];
     if (!this.params.hasInstance) {
       errorMessages.push(Dictionary.get('l10n.noMedium'));
     }
-    if (!this.params.transcriptFilePath) {
+    if (!this.params.transcriptFiles.length) {
       errorMessages.push(Dictionary.get('l10n.noTranscript'));
     }
 
@@ -244,7 +258,94 @@ export default class TranscriptText {
       return;
     }
 
-    this.parseWebVTTFile(this.params.transcriptFilePath);
+    await this.switchToTranscript(this.selectedScriptId);
+
+    // Load remaining transcripts
+    this.params.transcriptFiles.forEach(async (file, index) => {
+      await this.prepareTranscript(file, index);
+    });
+  }
+
+  /**
+   * Prepare transcript.
+   *
+   * @param {object} [data={}] Parameters from author.
+   * @param {number} index Index of transcript.
+   */
+  async prepareTranscript(data = {}, index) {
+    if (this.transcripts[index]) {
+      return; // Already prepared
+    }
+
+    this.transcripts[index] =
+      await this.parseWebVTTFile(data.transcriptFile.path, data.languageCode);
+
+    this.transcripts[index]?.cues.errors?.forEach((error) => {
+      let location = [`line ${error.line}`];
+      if (error.col) {
+        location.push(`column ${error.col}`);
+      }
+      location = `(${ location.join(', ') })`; // array becomes string
+
+      console.warn(
+        `H5P.Transcript. Error in WebVTT file: ${error.message} ${location}`
+      );
+    });
+
+    let cues = this.transcripts[index].cues.cues; // Just for abbreviation
+
+    // Sanitize cues
+    cues = cues
+      .map((cue) => {
+        // Purify strings
+        cue.text = stripHtml(cue.text, { ignoreTags: ['b', 'i', 'v'] }).result;
+
+        // Replace line breaks
+        cue.text = cue.text.replace(/(?:\r\n|\r|\n)/g, ' ');
+
+        return cue;
+      });
+
+    // Build interactive transcript text.
+    this.transcripts[index].snippets = cues.map((cue) => {
+      // Style WebVTT voice tags, why is capturing group not working?
+      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
+      if (voice) {
+        const voiceTag = voice[0];
+        const speaker = voiceTag.substring(
+          voiceTag.indexOf(' ') + 1,
+          voiceTag.length - 1
+        );
+        const text = cue.text.substring(voiceTag.length);
+
+        cue.text =
+          `<span class="h5p-transcript-snippet-speaker">${speaker}</span>\
+          <span class="h5p-transcript-snippet-text">${text}</span>`;
+      }
+
+      return cue;
+    });
+
+    // Build transcript plain text.
+    this.transcripts[index].plaintext = cues.map((cue) => {
+      // Style WebVTT voice tags, why is capturing group not working?
+      cue.text = stripHtml(cue.text, { ignoreTags: ['v'] }).result;
+
+      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
+      if (voice) {
+        const voiceTag = voice[0];
+        const speaker = voiceTag.substring(
+          voiceTag.indexOf(' ') + 1,
+          voiceTag.length - 1
+        );
+        cue.text = cue.text.replace(
+          voiceTag,
+          `${speaker}: `
+        );
+      }
+
+      return cue.text;
+    });
   }
 
   /**
@@ -253,21 +354,18 @@ export default class TranscriptText {
    * @param {string} languageCode Language code as BCP-47.
    */
   setLanguageCode(languageCode) {
+    if (languageCode === null) {
+      this.transcriptContainer.removeAttribute('lang');
+      return;
+    }
+
     if (typeof languageCode !== 'string') {
       return;
     }
 
-    this.languageCode = languageCode;
-    this.transcriptContainer.setAttribute('lang', languageCode);
-  }
-
-  /**
-   * Get language code.
-   *
-   * @returns {string|null} languageCode Language code as BCP-47.
-   */
-  getLanguageCode() {
-    return this.languageCode || null;
+    this.transcriptContainer.setAttribute(
+      'lang', Util.htmlDecode(languageCode)
+    );
   }
 
   /**
@@ -285,20 +383,83 @@ export default class TranscriptText {
    * Parse WebVTT file.
    *
    * @param {string} path WebVTT file path.
+   * @param {string} [languageCode] Language code.
    */
-  parseWebVTTFile(path) {
-    fetch(path)
-      .then((response) => response.text())
-      .then((text) => {
-        // Try to extract language code from WebVTT file
-        const languageCodeMatches = text.match(/Language:\s*([a-z][a-z])/);
-        this.setLanguageCode(
-          languageCodeMatches && languageCodeMatches[1] || null
-        );
+  async parseWebVTTFile(path, languageCode) {
+    const response = await fetch(path);
+    const webvttText = await response.text();
 
-        const parser = new WebVTTParser();
-        this.handleWebVTTLoaded(parser.parse(text || '', 'metadata'));
-      });
+    // Try to extract language code from WebVTT file
+    if (typeof languageCode !== 'string') {
+      const languageCodeMatches = webvttText.match(/Language:\s*([a-z][a-z])/);
+      languageCode = languageCodeMatches && languageCodeMatches[1] || null;
+    }
+
+    const parser = new WebVTTParser();
+    const cues = parser.parse(webvttText || '', 'metadata');
+
+    // Try to automatically determine language of transcript text for a11y
+    if (typeof languageCode !== 'string') {
+      const plainText = JSON.parse(JSON.stringify(cues.cues))
+        .map((cue) => cue.text).join(' ');
+
+      const languageDetect = new LanguageDetect();
+      languageDetect.setLanguageType('iso2');
+
+      const languageInfo = languageDetect.detect(plainText, 1)[0];
+      languageCode = languageInfo ? languageInfo[0] : null;
+    }
+
+    return { cues: cues, languageCode: languageCode };
+  }
+
+  /**
+   * Switch to transcript.
+   *
+   * @param {number} index Index of transcript to switch to.
+   */
+  async switchToTranscript(index) {
+    await this.prepareTranscript(this.params.transcriptFiles[index], index);
+
+    // Display error message
+    if (!this.transcripts[index]?.cues?.cues.length) {
+      this.setLanguageCode(null);
+      this.snippetsContainer.setErrorMessage(
+        Dictionary.get('l10n.troubleWebVTT')
+      );
+      this.callbacks.resize();
+
+      return;
+    }
+
+    this.selectedScriptId = index;
+
+    this.setLanguageCode(
+      this.transcripts[index].languageCode
+    );
+
+    this.snippetsContainer.setSnippets(
+      this.transcripts[index].snippets
+    );
+
+    this.plaintextContainer.setText({
+      snippets: this.transcripts[index].plaintext
+    });
+
+    this.applyViewChangesToTranscript();
+
+    this.callbacks.resize();
+  }
+
+  /**
+   * (Re)apply view changes.
+   */
+  applyViewChangesToTranscript() {
+    this.snippetsContainer.setLineBreaks(this.isLineBreakActive);
+    this.plaintextContainer.setLineBreaks(this.isLineBreakActive);
+
+    this.snippetsContainer.mark(this.highlightedText);
+    this.plaintextContainer.mark(this.highlightedText);
   }
 
   /**
@@ -342,14 +503,32 @@ export default class TranscriptText {
     this.snippetsContainer.setAutoScroll(state);
   }
 
-  handleLineBreakChanged(state) {
+  /**
+   * Set line break state.
+   *
+   * @param {boolean} state State.
+   */
+  setLineBreak(state) {
     if (typeof state !== 'boolean') {
       return;
     }
 
     this.isLineBreakActive = state;
-    this.snippetsContainer.setLineBreaks(state);
-    this.plaintextContainer.setLineBreaks(state);
+    this.applyViewChangesToTranscript();
+  }
+
+  /**
+   * Highlight text.
+   *
+   * @param {string} text to highlight.
+   */
+  highlightText(text) {
+    if (typeof text !== 'string') {
+      return;
+    }
+
+    this.highlightedText = text;
+    this.applyViewChangesToTranscript();
   }
 
   /**
@@ -388,6 +567,8 @@ export default class TranscriptText {
         this.plaintextContainer.show();
       }
     }
+
+    this.applyViewChangesToTranscript();
   }
 
   /**
@@ -399,6 +580,7 @@ export default class TranscriptText {
     if (this.isVisible) {
       this.toolbar.enableButton('plaintext');
       this.toolbar.enableButton('linebreak');
+      this.toolbar.enableSelectField();
       this.toolbar.enableSearchbox();
 
       if (this.isInteractive) {
@@ -417,105 +599,12 @@ export default class TranscriptText {
       this.toolbar.disableButton('plaintext');
       this.toolbar.disableButton('linebreak');
       this.toolbar.disableButton('time');
+      this.toolbar.disableSelectField();
       this.toolbar.disableSearchbox();
 
       this.snippetsContainer.hide();
       this.plaintextContainer.hide();
     }
-
-    this.callbacks.resize();
-  }
-
-  /**
-   * Callback for WebVTTFile loaded.
-   *
-   * @param {object} webvtts WebVTT object.
-   */
-  handleWebVTTLoaded(webvtts) {
-    webvtts.errors?.forEach((error) => {
-      let location = [`line ${error.line}`];
-      if (error.col) {
-        location.push(`column ${error.col}`);
-      }
-      location = `(${ location.join(', ') })`; // array becomes string
-
-      console.warn(
-        `H5P.Transcript. Error in WebVTT file: ${error.message} ${location}`
-      );
-    });
-
-    // Display error message
-    if (!webvtts?.cues.length) {
-      this.snippetsContainer.classList.add('h5p-transcript-message');
-      this.snippetsContainer.innerHTML = Dictionary.get('l10n.troubleWebVTT');
-      this.callbacks.resize();
-      return;
-    }
-
-    webvtts.cues = webvtts.cues.map((cue) => {
-      // Purify strings
-      cue.text = stripHtml(cue.text, { ignoreTags: ['b', 'i', 'v'] }).result;
-
-      // Replace line breaks
-      cue.text = cue.text.replace(/(?:\r\n|\r|\n)/g, ' ');
-
-      return cue;
-    });
-
-    const cues = JSON.parse(JSON.stringify(webvtts.cues));
-    const text = cues.map((cue) => cue.text).join(' ');
-
-    // Try to automatically determine language of transcript text for a11y
-    if (typeof this.getLanguageCode() !== 'string') {
-      const languageDetect = new LanguageDetect();
-      languageDetect.setLanguageType('iso2');
-      const languageInfo = languageDetect.detect(text, 1)[0];
-      this.setLanguageCode(languageInfo ? languageInfo[0] : null);
-    }
-
-    // Build interactive transcript text.
-    const snippets = cues.map((cue) => {
-      // Style WebVTT voice tags, why is capturing group not working?
-      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
-      if (voice) {
-        const voiceTag = voice[0];
-        const speaker = voiceTag.substring(
-          voiceTag.indexOf(' ') + 1,
-          voiceTag.length - 1
-        );
-        const text = cue.text.substring(voiceTag.length);
-
-        cue.text =
-          `<span class="h5p-transcript-snippet-speaker">${speaker}</span>\
-          <span class="h5p-transcript-snippet-text">${text}</span>`;
-      }
-
-      return cue;
-    });
-    this.snippetsContainer.setSnippets(snippets);
-
-    // Build transcript plain text.
-    const plaintext = cues.map((cue) => {
-      // Style WebVTT voice tags, why is capturing group not working?
-      cue.text = stripHtml(cue.text, { ignoreTags: ['v'] }).result;
-
-      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
-      if (voice) {
-        const voiceTag = voice[0];
-        const speaker = voiceTag.substring(
-          voiceTag.indexOf(' ') + 1,
-          voiceTag.length - 1
-        );
-        cue.text = cue.text.replace(
-          voiceTag,
-          `${speaker}: `
-        );
-      }
-
-      return cue.text;
-    });
-
-    this.plaintextContainer.setText({ snippets: plaintext });
 
     this.callbacks.resize();
   }
@@ -531,7 +620,8 @@ export default class TranscriptText {
       isAutoScrollActive: this.isAutoScrollActive,
       isInteractive: this.isInteractive,
       isTimestampActive: this.isTimestampActive,
-      isLineBreakActive: this.isLineBreakActive
+      isLineBreakActive: this.isLineBreakActive,
+      selectedScriptId: this.selectedScriptId
     };
   }
 

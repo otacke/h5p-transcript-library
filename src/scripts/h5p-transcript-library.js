@@ -16,7 +16,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
     // Sanitize parameters
     this.params = Util.extend({
-      transcriptFile: {},
+      transcriptFiles: [],
       behaviour: {
         maxLines: 10,
         buttons: ['visibility', 'plaintext', 'linebreak', 'autoscroll', 'time'],
@@ -43,10 +43,36 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         buttonLineBreakInactive: 'Show line breaks. Currently not shown.',
         buttonLineBreakDisabled: 'Line break option disabled.',
         interactiveTranscript: 'Interactive transcript',
+        selectField: 'Select what transcript to display.',
+        selectFieldDisabled: 'Select field disabled.',
         enterToHighlight: 'Enter a query to highlight relevant text.',
-        searchboxDisabled: 'Search box disabled.'
+        searchboxDisabled: 'Search box disabled.',
+        unnamedOption: 'Unnamed option',
       }
     }, params);
+
+    // Sanitize transcript files
+    if (!this.params.transcriptFiles.length) {
+      this.params.transcriptFiles.push(
+        {
+          transcriptFile: {}
+        }
+      );
+    }
+
+    this.params.transcriptFiles = this.params.transcriptFiles
+      .filter((file) => file.transcriptFile?.path)
+      .map((file) => {
+        file.transcriptFile.path = H5P.getPath(
+          file.transcriptFile.path, contentId
+        );
+
+        if (typeof file.label !== 'string') {
+          file.label = this.params.a11y.unnamedOption;
+        }
+
+        return file;
+      });
 
     if (params?.behaviour?.buttons) {
       this.params.behaviour.buttons = params.behaviour.buttons;
@@ -76,14 +102,10 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       this.tracker.start();
     }
 
-    const transcriptFilePath = this.params.transcriptFile.path ?
-      H5P.getPath(this.params.transcriptFile.path, this.contentId) :
-      null;
-
     this.transcriptText = new TranscriptText(
       {
         hasInstance: this.params.instance,
-        transcriptFilePath: transcriptFilePath,
+        transcriptFiles: this.params.transcriptFiles,
         maxLines: this.params.behaviour.maxLines,
         ...(this.previousState.transcript &&
           { previousState: this.previousState.transcript }
