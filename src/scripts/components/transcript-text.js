@@ -418,7 +418,7 @@ export default class TranscriptText {
    */
   updateTime(time) {
     this.highlightSnippet({ time: time });
-    this.chapterMarks.updateTime(time);
+    this.chapterMarks?.updateTime(time);
   }
 
   /**
