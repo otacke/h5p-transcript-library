@@ -111,5 +111,9 @@ The user controls can be controlled programmatically, and there are some extras.
 - `setInteractive(state : number)`: Sets the transcript mode (0: interactive transcript, 1: plain text).
 - `setTimestampActive(state : boolean)`: Turns timestamps on (`true`) or off (`false`).
 - `setLineBreaksActive(state : boolean)`: Turns line breaks on (`true`) or off (`false`).
+- `getChapterMarks() : object[]`: Retrieves chapter marks.
+- `jumpToChapterMark({ index : number })`: Jump to time as set in chapter mark with id.
+- `getTranscriptOptions() : object[]`: Retrieve transcript options.
+- `setTranscriptionTo(index : number)`: Set transcription with index active.
 - `reset()`: Resets to default values (transcripts visible, autoscrolling: on, interactive transcript, no start times).
 - `getCurrentState() : object`: Returns the current state just like an H5P content type would.

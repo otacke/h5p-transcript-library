@@ -849,6 +849,41 @@ export default class TranscriptText {
   }
 
   /**
+   * Get chapter marks.
+   *
+   * @returns {object[]} Chapter marks with time and label.
+   */
+  getChapterMarks() {
+    return this.params.chapterMarks ?? [];
+  }
+
+  /**
+   * Jump to chapter mark.
+   *
+   * @param {number} id If of chapter mark to jump to.
+   */
+  jumpToChapterMark(id) {
+    if (typeof id !== 'number' || !this.params.chapterMarks?.length) {
+      return;
+    }
+
+    if (id < 0 || id > this.params?.chapterMarks.length - 1) {
+      return;
+    }
+
+    this.callbacks.onPositionChanged(this.params.chapterMarks[id].time);
+  }
+
+  /**
+   * Set transcription depending on index.
+   *
+   * @param {number} index Id of transcription to set active.
+   */
+  setTranscriptionTo(index) {
+    this.toolbar.setSelectboxTo(index);
+  }
+
+  /**
    * Reset.
    */
   reset() {

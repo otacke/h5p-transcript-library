@@ -105,6 +105,16 @@ export default class SelectBox {
   }
 
   /**
+   * Set transcription depending on index.
+   *
+   * @param {number} index Id of transcription to set active.
+   */
+  setOptionTo(index) {
+    this.selectField.value = index.toString();
+    this.callbacks.onChanged(parseInt(this.selectField.value));
+  }
+
+  /**
    * Focus.
    */
   focus() {

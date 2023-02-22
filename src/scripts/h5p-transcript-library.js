@@ -360,6 +360,56 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
   }
 
   /**
+   * Get chapter marks.
+   *
+   * @returns {object[]} Chapter marks with time and label.
+   */
+  getChapterMarks() {
+    return this.transcriptText.getChapterMarks();
+  }
+
+  /**
+   * Jump to chapter mark.
+   *
+   * @param {number} index If of chapter mark to jump to.
+   */
+  jumpToChapterMark(index) {
+    if (typeof index !== 'number') {
+      return;
+    }
+
+    this.transcriptText.jumpToChapterMark(index);
+  }
+
+  /**
+   * Get transcript options
+   *
+   * @returns {object[]} Transcript options with label [and language code].
+   */
+  getTranscriptOptions() {
+    if (!this.params.transcriptFiles?.length) {
+      return [];
+    }
+    return this.params.transcriptFiles.map((entry) => {
+      delete entry.transcriptFile;
+      return entry;
+    });
+  }
+
+  /**
+   * Set transcription depending on index.
+   *
+   * @param {number} index Id of transcription to set active.
+   */
+  setTranscriptionTo(index) {
+    if (typeof index !== 'number' || !this.params.transcriptFiles?.length) {
+      return;
+    }
+
+    this.transcriptText.setTranscriptionTo(index);
+  }
+
+  /**
    * Reset.
    */
   reset() {

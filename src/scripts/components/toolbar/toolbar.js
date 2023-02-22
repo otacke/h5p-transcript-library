@@ -406,4 +406,17 @@ export default class Toolbar {
     this.enableSelectField();
     this.enableSearchbox();
   }
+
+  /**
+   * Set transcription depending on index.
+   *
+   * @param {number} index Id of transcription to set active.
+   */
+  setSelectboxTo(index) {
+    if (index < 0 || index > this.params.selectbox.options.length - 1) {
+      return;
+    }
+
+    this.selectbox.setOptionTo(index);
+  }
 }
