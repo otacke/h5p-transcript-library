@@ -1,5 +1,5 @@
 import './plaintext.scss';
-import Util from './../../util';
+import Util from '@services/util';
 import Mark from 'mark.js';
 
 export default class Plaintext {

@@ -1,9 +1,17 @@
-@import './../../styles/main';
+@import '@styles/main';
 
 .h5p-transcript-text-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
   margin: 1em;
 
+  .toolbar-tool-bar {
+    grid-area: 1 / 1 / 1 / 1;
+  }
+
   .h5p-transcript-transcript-container {
+    grid-area: 2 / 1 / 2 / 1;
 
     &.plaintext .h5p-transcript-snippets-container {
       display: none;

@@ -1,8 +1,8 @@
-import Util from './util';
-import TimeTracker from './time-tracker';
-import TranscriptText from './components/transcript-text';
-import Dictionary from './services/dictionary';
-import '../styles/h5p-transcript-library.scss';
+import Util from '@services/util';
+import TimeTracker from '@services/time-tracker';
+import TranscriptText from '@components/transcript-text';
+import Dictionary from '@services/dictionary';
+import '@styles/h5p-transcript-library.scss';
 
 export default class TranscriptLibrary extends H5P.EventDispatcher {
   /**
@@ -25,7 +25,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       l10n: {
         noMedium: 'No medium was assigned to the transcript.',
         noTranscript: 'No transcript was provided.',
-        troubleWebVTT: 'There seems to be something wrong with the WebVTT file. Please consult the browser\'s development console for more information.'
+        troubleWebVTT: 'There seems to be something wrong with the WebVTT file. Please consult the browser\'s development console for more information.',
+        chapterMarks: 'Chapter marks'
       },
       a11y: {
         buttonVisible: 'Hide transcript. Currently visible.',
@@ -42,12 +43,16 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         buttonLineBreakActive: 'Hide line breaks. Currently shown.',
         buttonLineBreakInactive: 'Show line breaks. Currently not shown.',
         buttonLineBreakDisabled: 'Line break option disabled.',
+        buttonChapterMarksOpen: 'Open chapter mark selector',
+        buttonChapterMarksClose: 'Close chapter mark selector',
+        buttonChapterMarksDisabled: 'Chapter mark selector disabled.',
         interactiveTranscript: 'Interactive transcript',
         selectField: 'Select what transcript to display.',
         selectFieldDisabled: 'Select field disabled.',
         enterToHighlight: 'Enter a query to highlight relevant text.',
         searchboxDisabled: 'Search box disabled.',
         unnamedOption: 'Unnamed option',
+        close: 'Close'
       }
     }, params);
 
@@ -95,7 +100,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         { instance: params.instance },
         {
           onTimeUpdated: (time) => {
-            this.transcriptText.highlightSnippet({ time: time });
+            this.transcriptText.updateTime(time);
           }
         }
       );
@@ -112,7 +117,10 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         ),
         toolbarHidden: this.params.behaviour.toolbarHidden,
         buttons: this.params.behaviour.buttons,
-        searchbox: this.params.behaviour.searchbox
+        searchbox: this.params.behaviour.searchbox,
+        ...(this.params.chapterMarks && {
+          chapterMarks: this.parseChapterMarks(this.params.chapterMarks)
+        })
       },
       {
         onPositionChanged: (time) => {
@@ -156,6 +164,50 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
     content.appendChild(this.transcriptText.getDOM());
 
     return content;
+  }
+
+  /**
+   * Parse chapter marks.
+   *
+   * @param {string} chapterMarks Chapter marks in mp4chaps format.
+   * @returns {object[]|undefined} Time (seconds) and chapter label.
+   */
+  parseChapterMarks(chapterMarks) {
+    if (typeof chapterMarks !== 'string') {
+      return;
+    }
+
+    /*
+     * Parse multi-line text for lines following `hh:mm:ss[.MMM] Some label` and
+     * extract sorted "time (in seconds) / label" array for valid line.
+     */
+    return chapterMarks
+      .replace(/\\r\\n/g, '\n').split('\n')
+      .map((line) => line.trim())
+      .filter((line) => {
+        return /\d\d:0*(?:5\d|[1-4]\d|\d):0*(?:5\d|[1-4]\d|\d)(?:\.\d{3})*\s+(.+)/.test(line);
+      })
+      .map((line) => {
+        const splits = line.split(' ');
+        const timecode = splits[0];
+        const label = splits.slice(1).join(' ');
+
+        let [hoursMinsSecs, time] = timecode.split('.');
+        time = hoursMinsSecs
+          .split(':')
+          .reduce((total, current, index) => {
+            if (index === 0) { // hours
+              return total + parseInt(current) * 3600;
+            }
+            else if (index === 1) { // minutes
+              return total + parseInt(current) * 60;
+            }
+            return total + parseInt(current); // seconds
+          }, parseFloat((time ?? 0) / 1000));
+
+        return { time: time, label: label };
+      })
+      .sort((entry1, entry2) => entry1 - entry2);
   }
 
   /**

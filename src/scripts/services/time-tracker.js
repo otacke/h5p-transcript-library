@@ -1,4 +1,4 @@
-import Util from './util';
+import Util from '@services/util';
 
 export default class TimeTracker {
   /**

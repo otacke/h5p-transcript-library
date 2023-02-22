@@ -1,9 +1,10 @@
-import './transcript-text.scss';
-import Util from './../util';
-import InteractiveTranscript from './transcript/interactive-transcript';
-import Plaintext from './transcript/plaintext';
-import Toolbar from './toolbar/toolbar';
-import Dictionary from './../services/dictionary';
+import '@components/transcript-text.scss';
+import Util from '@services/util';
+import InteractiveTranscript from '@components/transcript/interactive-transcript';
+import ChapterMarks from '@components/chapter-marks/chapter-marks';
+import Plaintext from '@components/transcript/plaintext';
+import Toolbar from '@components/toolbar/toolbar';
+import Dictionary from '@services/dictionary';
 import { WebVTTParser } from 'webvtt-parser';
 import { stripHtml } from 'string-strip-html';
 import LanguageDetect from 'languagedetect';
@@ -143,6 +144,29 @@ export default class TranscriptText {
       }
     });
 
+    if (this.params.chapterMarks) {
+      buttonParams.push({
+        id: 'chaptermarks',
+        type: 'pulse',
+        pulseStates: [
+          {
+            id: 'chaptermarksopen',
+            label: Dictionary.get('a11y.buttonChapterMarksOpen')
+          },
+          {
+            id: 'chaptermarksclose',
+            label: Dictionary.get('a11y.buttonChapterMarksClose')
+          }
+        ],
+        a11y: {
+          disabled: Dictionary.get('a11y.buttonChapterMarksDisabled')
+        },
+        onClick: () => {
+          this.toggleChapterMarks();
+        }
+      });
+    }
+
     // Toolbar
     this.toolbar = new Toolbar(
       {
@@ -224,6 +248,23 @@ export default class TranscriptText {
     else {
       this.toolbar.hideButton('autoscroll');
     }
+
+    if (this.params.chapterMarks) {
+      this.chapterMarks = new ChapterMarks(
+        {
+          chapterMarks: this.params.chapterMarks
+        },
+        {
+          onClosed: () => {
+            this.toggleChapterMarks(false);
+          },
+          onChapterChanged: (time) => {
+            this.callbacks.onPositionChanged(time);
+          }
+        }
+      );
+      this.dom.append(this.chapterMarks.getDOM());
+    }
   }
 
   /**
@@ -248,11 +289,13 @@ export default class TranscriptText {
     }
 
     if (errorMessages.length) {
+      this.toolbar.disable();
+
       this.snippetsContainer.setErrorMessage(
-        errorMessages.join('<br />')
+        errorMessages.join('\n')
       );
       this.plaintextContainer.setErrorMessage(
-        errorMessages.join('<br />')
+        errorMessages.join('\n')
       );
       this.callbacks.resize();
       return;
@@ -366,6 +409,16 @@ export default class TranscriptText {
     this.transcriptContainer.setAttribute(
       'lang', Util.htmlDecode(languageCode)
     );
+  }
+
+  /**
+   * Update time.
+   *
+   * @param {number} time Time.
+   */
+  updateTime(time) {
+    this.highlightSnippet({ time: time });
+    this.chapterMarks.updateTime(time);
   }
 
   /**
@@ -580,6 +633,7 @@ export default class TranscriptText {
     if (this.isVisible) {
       this.toolbar.enableButton('plaintext');
       this.toolbar.enableButton('linebreak');
+      this.toolbar.enableButton('chaptermarks');
       this.toolbar.enableSelectField();
       this.toolbar.enableSearchbox();
 
@@ -599,6 +653,7 @@ export default class TranscriptText {
       this.toolbar.disableButton('plaintext');
       this.toolbar.disableButton('linebreak');
       this.toolbar.disableButton('time');
+      this.toolbar.disableButton('chaptermarks');
       this.toolbar.disableSelectField();
       this.toolbar.disableSearchbox();
 
@@ -669,6 +724,29 @@ export default class TranscriptText {
    */
   hideSearchbox() {
     this.toolbar.hideSearchbox();
+  }
+
+  /**
+   * Toggle chapter marks.
+   *
+   * @param {boolean} state Sate to toggle to.
+   */
+  toggleChapterMarks(state) {
+    if (typeof state !== 'boolean') {
+      state = null;
+    }
+
+    this.isChapterMarksOpen = state ?? !this.isChapterMarksOpen;
+
+    if (this.isChapterMarksOpen) {
+      this.chapterMarks.show();
+    }
+    else {
+      this.chapterMarks.hide();
+      this.toolbar.forceButton('chaptermarks', 0, true);
+    }
+
+    this.callbacks.resize();
   }
 
   /**

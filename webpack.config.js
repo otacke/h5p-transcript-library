@@ -1,5 +1,5 @@
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const nodeEnv = process.env.NODE_ENV || 'development';
@@ -7,6 +7,13 @@ const isProd = (nodeEnv === 'production');
 
 module.exports = {
   mode: nodeEnv,
+  resolve: {
+    alias: {
+      '@components': path.resolve(__dirname, 'src/scripts/components'),
+      '@services': path.resolve(__dirname, 'src/scripts/services'),
+      '@styles': path.resolve(__dirname, 'src/styles')
+    }
+  },
   optimization: {
     minimize: isProd,
     minimizer: [
@@ -48,9 +55,9 @@ module.exports = {
               publicPath: ''
             }
           },
-          { loader: "css-loader" },
+          { loader: 'css-loader' },
           {
-            loader: "sass-loader"
+            loader: 'sass-loader'
           }
         ]
       },

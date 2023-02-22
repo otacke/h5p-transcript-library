@@ -1,5 +1,5 @@
 import './toolbar-button.scss';
-import Util from './../../util';
+import Util from '@services/util';
 
 export default class ToolbarButton {
   /**
@@ -203,8 +203,9 @@ export default class ToolbarButton {
    * Force button click.
    *
    * @param {boolean} [active] If set to boolean, activate accordingly.
+   * @param {boolean} [skipClick] If true, skip click.
    */
-  force(active) {
+  force(active, skipClick) {
     if (this.params.type === 'toggle') {
       if (active === true) {
         this.activate();
@@ -237,7 +238,9 @@ export default class ToolbarButton {
       });
     }
 
-    this.callbacks.onClick(event, { active: this.active });
+    if (!skipClick) {
+      this.callbacks.onClick({}, { active: this.active });
+    }
   }
 
   /**

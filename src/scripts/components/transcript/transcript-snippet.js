@@ -1,5 +1,5 @@
 import './transcript-snippet.scss';
-import Util from './../../util';
+import Util from '@services/util';
 import Mark from 'mark.js';
 
 /** Class for a text snippet */

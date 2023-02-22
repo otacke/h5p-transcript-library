@@ -1,7 +1,7 @@
 import './toolbar.scss';
+import Util from '@services/util';
 import ToolbarButton from './toolbar-button';
 import SearchBox from './search-box';
-import Util from './../../util';
 import SelectBox from './select-box';
 
 /** Class representing the button bar */
@@ -222,13 +222,14 @@ export default class Toolbar {
    *
    * @param {string} id Button id.
    * @param {boolean|number} active If true, toggle active, else inactive.
+   * @param {boolean} skipClick If true, will nct click button.
    */
-  forceButton(id = '', active) {
+  forceButton(id = '', active, skipClick = false) {
     if (!this.buttons[id]) {
       return; // Button not available
     }
 
-    this.buttons[id].force(active);
+    this.buttons[id].force(active, skipClick);
   }
 
   /**
@@ -384,5 +385,25 @@ export default class Toolbar {
    */
   disableSearchbox() {
     this.searchbox.disable();
+  }
+
+  // Disable
+  disable() {
+    Object.values(this.buttons).forEach((button) => {
+      button.disable();
+    });
+
+    this.disableSelectField();
+    this.disableSearchbox();
+  }
+
+  // Enable
+  enable() {
+    Object.values(this.buttons).forEach((button) => {
+      button.enable();
+    });
+
+    this.enableSelectField();
+    this.enableSearchbox();
   }
 }

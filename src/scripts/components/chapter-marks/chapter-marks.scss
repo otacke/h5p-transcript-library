@@ -1,0 +1,48 @@
+@import "@styles/main";
+
+.h5p-chapter-marks-list {
+  list-style-type: none;
+  margin: 0.5em 0 0 0;
+  padding: 0;
+
+  li.h5p-chapter-marks-listitem {
+    display: block;
+    text-align: left;
+
+    .h5p-chapter-marks-button {
+      border: 0;
+      background-color: transparent;
+      display: grid;
+      gap: 0.5rem;
+      grid-template-columns: auto 1fr auto;
+      padding: 0.25rem;
+      text-align: left;
+      width: 100%;
+      cursor: pointer;
+      transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
+
+      &.active {
+        background-color: $color-primary-5;
+        color: $color-primary;
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: $color-primary;
+        color: $color-background;
+      }
+    }
+
+    .h5p-chapter-marks-number {
+      width: 1.5rem;
+    }
+
+    .h5p-chapter-marks-label {
+    }
+
+    .h5p-chapter-marks-timecode {
+      text-align: right;
+      width: 3rem;
+    }
+  }
+}

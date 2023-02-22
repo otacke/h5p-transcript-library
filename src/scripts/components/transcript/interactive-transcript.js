@@ -1,7 +1,7 @@
 import './interactive-transcript.scss';
 import TranscriptSnippet from './transcript-snippet';
-import Dictionary from './../../services/dictionary';
-import Util from './../../util';
+import Dictionary from '@services/dictionary';
+import Util from '@services/util';
 
 /** Class for transcript */
 export default class InteractiveTranscript {
