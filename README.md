@@ -60,7 +60,15 @@ where
   library: 'H5P.TranscriptLibrary 1.0', // H5P doesn't evaluate version
   params: {
     instance: <H5P.ContentType>, // Content Type instance
-    transcriptFile: <H5P file type of WebVTT file>, // https://h5p.org/semantics#type-file
+    transcriptFiles: {
+      transcriptFile: <H5P file type of WebVTT file>, // https://h5p.org/semantics#type-file
+      label: <string>, // Optional label,
+      languageCode: <string> // BCP 47 language tag
+    },
+    chapterMarks: [
+      time: <number>, // Float describing seconds of chapter mark position
+      label: <string> // Label for chapter mark
+    ],
     behaviour: {
       maxLines: <number>, // number of lines in transcript, optional
       toolbarHidden: <boolean>, // If true, toolbar will be hidden, optional,
@@ -70,7 +78,9 @@ where
     l10n: {
       noMedium: <string> // 'No medium was assigned to the transcript.',
       noTranscript: <string> // 'No transcript was provided.',
-      troubleWebVTT: <string> // 'There seems to be something wrong with the WebVTT file. Please consult the browser\'s development console for more information.'
+      troubleWebVTT: <string> // 'There seems to be something wrong with the WebVTT file. Please consult the browser\'s development console for more information.',
+      chapterMarks: <string> // 'Chapter marks'
+      unnamedOption: <string> // 'Unnamed option',
     },
     a11y: {
       buttonVisible: <string> // 'Hide transcript. Currently visible.',
@@ -87,9 +97,15 @@ where
       buttonLineBreakActive: <string> // 'Hide line breaks. Currently shown.',
       buttonLineBreakInactive: <string> // 'Show line breaks. Currently not shown.',
       buttonLineBreakDisabled: <string> // 'Line break option disabled.',
+      buttonChapterMarksOpen: <string> // 'Open chapter marks',
+      buttonChapterMarksClose: <string> // 'Close chapter marks',
+      buttonChapterMarksDisabled: <string> // 'Chapter marks disabled.',
       interactiveTranscript: <string> // 'Interactive transcript',
+      selectField: <string> // 'Select what transcript to display.',
+      selectFieldDisabled: <string> // 'Select field disabled.',
       enterToHighlight: <string> // 'Enter a query to highlight relevant text.',
       searchboxDisabled: <string> // 'Search box disabled.'
+      close: <string> // 'Close'
     }
   }
 }
