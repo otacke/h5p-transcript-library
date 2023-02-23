@@ -73,7 +73,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         );
 
         if (typeof file.label !== 'string') {
-          file.label = this.params.a11y.unnamedOption;
+          file.label = this.params.l10n.unnamedOption;
         }
 
         return file;
