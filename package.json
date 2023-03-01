@@ -20,13 +20,13 @@
   "author": "Oliver Tacke",
   "license": "MIT",
   "devDependencies": {
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.12",
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
     "@babel/preset-env": "^7.20.2",
     "babel-loader": "^9.1.2",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.3",
-    "eslint": "^8.34.0",
+    "eslint": "^8.35.0",
     "eslint-plugin-jsdoc": "^40.0.0",
     "mini-css-extract-plugin": "^2.7.2",
     "regenerator-runtime": "^0.13.11",
@@ -43,7 +43,7 @@
     "he": "^1.2.0",
     "languagedetect": "^2.0.0",
     "mark.js": "^8.11.1",
-    "string-strip-html": "^13.1.0",
+    "string-strip-html": "^13.2.0",
     "webvtt-parser": "^2.2.0"
   }
 }
