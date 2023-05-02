@@ -6,7 +6,6 @@ import Plaintext from '@components/transcript/plaintext';
 import Toolbar from '@components/toolbar/toolbar';
 import Dictionary from '@services/dictionary';
 import { WebVTTParser } from 'webvtt-parser';
-import { stripHtml } from 'string-strip-html';
 import LanguageDetect from 'languagedetect';
 
 /** Class for transcript */
@@ -339,7 +338,14 @@ export default class TranscriptText {
     cues = cues
       .map((cue) => {
         // Purify strings
-        cue.text = stripHtml(cue.text, { ignoreTags: ['b', 'i', 'v'] }).result;
+        cue.text = Util.stripHTML(
+          cue.text, {
+            keepTags: [
+              'b', 'i', 'u',
+              { tag: 'v', keepAttributes: true}
+            ]
+          }
+        );
 
         // Replace line breaks
         cue.text = cue.text.replace(/(?:\r\n|\r|\n)/g, ' ');
@@ -349,43 +355,50 @@ export default class TranscriptText {
 
     // Build interactive transcript text.
     this.transcripts[index].snippets = cues.map((cue) => {
+      const result = {...cue};
+
       // Style WebVTT voice tags, why is capturing group not working?
-      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
+      let voice = result.text.match(/<v(?:\..+?)* (.+?)>/g);
       if (voice) {
         const voiceTag = voice[0];
         const speaker = voiceTag.substring(
           voiceTag.indexOf(' ') + 1,
           voiceTag.length - 1
         );
-        const text = cue.text.substring(voiceTag.length);
+        const text = Util.stripHTML(result.text, { keepTags: ['b', 'i', 'u'] });
 
-        cue.text =
+        result.text =
           `<span class="h5p-transcript-snippet-speaker">${speaker}</span>\
           <span class="h5p-transcript-snippet-text">${text}</span>`;
       }
 
-      return cue;
+      return result;
     });
 
     // Build transcript plain text.
     this.transcripts[index].plaintext = cues.map((cue) => {
-      // Style WebVTT voice tags, why is capturing group not working?
-      cue.text = stripHtml(cue.text, { ignoreTags: ['v'] }).result;
+      const result = {...cue};
 
-      let voice = cue.text.match(/<v(?:\..+?)* (.+?)>/g);
+      // Style WebVTT voice tags, why is capturing group not working?
+      result.text = Util.stripHTML(
+        result.text, { keepTags: [{ tag: 'v', keepAttributes: true }] }
+      );
+
+      let voice = result.text.match(/<v(?:\..+?)* (.+?)>/g);
       if (voice) {
         const voiceTag = voice[0];
         const speaker = voiceTag.substring(
           voiceTag.indexOf(' ') + 1,
           voiceTag.length - 1
         );
-        cue.text = cue.text.replace(
+
+        result.text = result.text.replace(
           voiceTag,
           `${speaker}: `
         );
       }
 
-      return cue.text;
+      return result.text;
     });
   }
 

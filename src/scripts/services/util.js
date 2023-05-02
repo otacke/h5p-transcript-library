@@ -36,12 +36,56 @@ export default class Util {
   /**
    * Retrieve string without HTML tags.
    * @param {string} html Input string.
+   * @param {object} [options={}] Options.
+   * @param {(string|object)[]} [options.keepTags] Tags to ignore when stripping.
    * @returns {string} Output string.
    */
-  static stripHTML(html) {
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    return div.textContent || div.innerText || '';
+  static stripHTML(html, options = {}) {
+    if (!Array.isArray(options.keepTags)) {
+      const div = document.createElement('div');
+      div.innerHTML = html;
+      return div.textContent || div.innerText || '';
+    }
+
+    options.keepTags = options.keepTags
+      .filter((tagObject) => {
+        return (
+          typeof tagObject === 'string' ||
+          typeof tagObject.tag === 'string'
+        );
+      })
+      .map((tagObject) => {
+        if (typeof tagObject === 'string') {
+          tagObject = { tag: tagObject };
+        }
+
+        if (typeof tagObject.keepAttributes !== 'boolean') {
+          tagObject.keepAttributes = false;
+        }
+
+        return tagObject;
+      });
+
+    return html
+      .replace(/<(\/?)(\w+)[^>]*\/?>/g, (original, endMark, tag) => {
+        if (options.keepTags.every((tagObject) => tagObject.tag !== tag)) {
+          return '';
+        }
+
+        if (endMark) {
+          return `<${endMark}${tag}>`;
+        }
+
+        const tagObject = options.keepTags
+          .find((tagObject) => tagObject.tag === tag);
+
+        if (!tagObject.keepAttributes) {
+          return `<${tag}>`;
+        }
+
+        return `<${original.substring(1, original.length - 1)}>`;
+      })
+      .replace(/<!--.*?-->/g, '');
   }
 
   /**
