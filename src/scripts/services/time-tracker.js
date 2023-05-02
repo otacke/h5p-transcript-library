@@ -3,7 +3,6 @@ import Util from '@services/util';
 export default class TimeTracker {
   /**
    * Track H5P media instance time updates.
-   *
    * @class
    * @param {object} params Parameters.
    * @param {H5P.ContentType} params.instance H5P content instance.
@@ -70,7 +69,6 @@ export default class TimeTracker {
 
   /**
    * Poll (in a timeout loop).
-   *
    * @param {H5P.ContentType} pollInstance Poll instance.
    * @param {number} timeout_ms Timeout.
    */
@@ -120,7 +118,6 @@ export default class TimeTracker {
 
   /**
    * Handle H5P.Video instance.
-   *
    * @param {H5P.ContentType} pollInstance H5P.Video instance.
    */
   handleVideo(pollInstance) {
@@ -129,7 +126,6 @@ export default class TimeTracker {
 
   /**
    * Handle time to check for update.
-   *
    * @param {number} currentTime Time.
    */
   handleTime(currentTime) {

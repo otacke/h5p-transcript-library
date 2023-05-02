@@ -269,7 +269,6 @@ export default class TranscriptText {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Component's dom.
    */
   getDOM() {
@@ -311,7 +310,6 @@ export default class TranscriptText {
 
   /**
    * Prepare transcript.
-   *
    * @param {object} [data={}] Parameters from author.
    * @param {number} index Index of transcript.
    */
@@ -393,7 +391,6 @@ export default class TranscriptText {
 
   /**
    * Set language code.
-   *
    * @param {string} languageCode Language code as BCP-47.
    */
   setLanguageCode(languageCode) {
@@ -413,7 +410,6 @@ export default class TranscriptText {
 
   /**
    * Update time.
-   *
    * @param {number} time Time.
    */
   updateTime(time) {
@@ -423,7 +419,6 @@ export default class TranscriptText {
 
   /**
    * Highlight a snippet (while unhighlighting all others).
-   *
    * @param {object} [params={}] Parameters.
    * @param {number} [params.id] Id of snippet. Preferred.
    * @param {number} [params.time] Time that snippet should be displayed at.
@@ -434,9 +429,9 @@ export default class TranscriptText {
 
   /**
    * Parse WebVTT file.
-   *
    * @param {string} path WebVTT file path.
    * @param {string} [languageCode] Language code.
+   * @returns {object} Cues and language code.
    */
   async parseWebVTTFile(path, languageCode) {
     const response = await fetch(path);
@@ -468,7 +463,6 @@ export default class TranscriptText {
 
   /**
    * Switch to transcript.
-   *
    * @param {number} index Index of transcript to switch to.
    */
   async switchToTranscript(index) {
@@ -517,7 +511,6 @@ export default class TranscriptText {
 
   /**
    * Handle transcript visible.
-   *
    * @param {HTMLElement} target Target.
    */
   handleTranscriptVisible(target) {
@@ -544,7 +537,6 @@ export default class TranscriptText {
 
   /**
    * Handle setting for autoscroll changed.
-   *
    * @param {boolean} state If true, activate autoscroll.
    */
   handleAutoScrollChanged(state) {
@@ -558,7 +550,6 @@ export default class TranscriptText {
 
   /**
    * Set line break state.
-   *
    * @param {boolean} state State.
    */
   setLineBreak(state) {
@@ -572,7 +563,6 @@ export default class TranscriptText {
 
   /**
    * Highlight text.
-   *
    * @param {string} text to highlight.
    */
   highlightText(text) {
@@ -586,7 +576,6 @@ export default class TranscriptText {
 
   /**
    * Handle setting for timestamp changed.
-   *
    * @param {boolean} state If true, activate timestamp.
    */
   handleTimestampChanged(state) {
@@ -666,7 +655,6 @@ export default class TranscriptText {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state.
    */
   getCurrentState() {
@@ -728,7 +716,6 @@ export default class TranscriptText {
 
   /**
    * Toggle chapter marks.
-   *
    * @param {boolean} state Sate to toggle to.
    */
   toggleChapterMarks(state) {
@@ -751,7 +738,6 @@ export default class TranscriptText {
 
   /**
    * Set autoscroll state.
-   *
    * @param {boolean} state True: active. False: inactive.
    */
   setAutoScrollActive(state) {
@@ -771,7 +757,6 @@ export default class TranscriptText {
 
   /**
    * Set timestamp state.
-   *
    * @param {boolean} state True: active. False: inactive.
    */
   setTimestampActive(state) {
@@ -791,7 +776,6 @@ export default class TranscriptText {
 
   /**
    * Set line breaks state.
-   *
    * @param {boolean} state True: active. False: inactive.
    */
   setLineBreaksActive(state) {
@@ -811,7 +795,6 @@ export default class TranscriptText {
 
   /**
    * Set transcript state.
-   *
    * @param {number} state 0 = interactive, 1 = plaintext.
    */
   setInteractive(state) {
@@ -850,7 +833,6 @@ export default class TranscriptText {
 
   /**
    * Get chapter marks.
-   *
    * @returns {object[]} Chapter marks with time and label.
    */
   getChapterMarks() {
@@ -859,7 +841,6 @@ export default class TranscriptText {
 
   /**
    * Jump to chapter mark.
-   *
    * @param {number} id If of chapter mark to jump to.
    */
   jumpToChapterMark(id) {
@@ -876,7 +857,6 @@ export default class TranscriptText {
 
   /**
    * Set transcription depending on index.
-   *
    * @param {number} index Id of transcription to set active.
    */
   setTranscriptionTo(index) {

@@ -8,7 +8,6 @@ export default class ChapterMarks {
 
   /**
    * Chapter marks
-   *
    * @class
    * @param {object} [params={}] Parameters.
    * @param {object[]} [params.chapterMarks=[]] Chapter marks.
@@ -46,7 +45,6 @@ export default class ChapterMarks {
 
   /**
    * Build chapter marks chooser.
-   *
    * @param {object[]} chapterMarks Chapter marks.
    * @returns {object} List and buttons.
    */
@@ -90,7 +88,6 @@ export default class ChapterMarks {
 
   /**
    * Get chapter marks DOM.
-   *
    * @returns {HTMLElement} Chapter marks DOM.
    */
   getDOM() {
@@ -118,7 +115,6 @@ export default class ChapterMarks {
 
   /**
    * Update time.
-   *
    * @param {number} time Time.
    */
   updateTime(time) {
@@ -131,7 +127,6 @@ export default class ChapterMarks {
 
   /**
    * Highligh option in chapter list.
-   *
    * @param {object} [params={}] Parameters.
    * @param {number} [params.id] Id of option to highlight. Preferred.
    * @param {number} [params.time] Time that identifies option best.

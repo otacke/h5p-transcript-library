@@ -42,7 +42,6 @@ export default class SearchBox {
 
   /**
    * Get search box DOM element.
-   *
    * @returns {HTMLElement} Search box DOM element.
    */
   getDOM() {
@@ -85,7 +84,6 @@ export default class SearchBox {
 
   /**
    * Set attribute.
-   *
    * @param {string} attribute Attribute key.
    * @param {string} value Attribute value.
    */

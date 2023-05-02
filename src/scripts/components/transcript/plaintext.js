@@ -5,7 +5,6 @@ import Mark from 'mark.js';
 export default class Plaintext {
   /**
    * Plain text container.
-   *
    * @class
    * @param {object} [params={}] Parameters.
    * @param {object} [callbacks={}] Callbacks.
@@ -26,7 +25,6 @@ export default class Plaintext {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Component's dom.
    */
   getDOM() {
@@ -35,7 +33,6 @@ export default class Plaintext {
 
   /**
    * Set text. Make sure it's purified!
-   *
    * @param {object} [params={}] Parameters.
    * @param {string[]} params.snippets Text snippets.
    */
@@ -52,7 +49,6 @@ export default class Plaintext {
 
   /**
    * Handle setting for line breaks changed.
-   *
    * @param {boolean} state If true, activate line breaks.
    */
   setLineBreaks(state) {
@@ -75,7 +71,6 @@ export default class Plaintext {
 
   /**
    * Mark text.
-   *
    * @param {string} text Text to mark.
    */
   mark(text) {
@@ -89,7 +84,6 @@ export default class Plaintext {
 
   /**
    * Set error message.
-   *
    * @param {string} message Error message.
    */
   setErrorMessage(message) {
@@ -99,7 +93,6 @@ export default class Plaintext {
 
   /**
    * Set telemetry.
-   *
    * @param {object} [params={}] Parameters.
    * @param {number} params.lineHeight Line height.
    * @param {number} params.fontSize Line height.

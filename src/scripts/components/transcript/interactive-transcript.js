@@ -56,7 +56,6 @@ export default class InteractiveTranscript {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Component's dom.
    */
   getDOM() {
@@ -65,7 +64,6 @@ export default class InteractiveTranscript {
 
   /**
    * Set snippets.
-   *
    * @param {object} [cues=[]] Snippets to set.
    */
   setSnippets(cues = []) {
@@ -123,7 +121,6 @@ export default class InteractiveTranscript {
 
   /**
    * Set error message.
-   *
    * @param {string} message Error message.
    */
   setErrorMessage(message) {
@@ -133,7 +130,6 @@ export default class InteractiveTranscript {
 
   /**
    * Highlight a snippet (while unhighlighting all others).
-   *
    * @param {object} [params={}] Parameters.
    * @param {number} [params.id] Id of snippet. Preferred.
    * @param {number} [params.time] Time that snippet should be displayed at.
@@ -170,7 +166,6 @@ export default class InteractiveTranscript {
 
   /**
    * Mark text in snippets.
-   *
    * @param {string} text Text to mark.
    */
   mark(text) {
@@ -181,7 +176,6 @@ export default class InteractiveTranscript {
 
   /**
    * Handle setting for autoscroll changed.
-   *
    * @param {boolean} state If true, activate autoscroll.
    */
   setAutoScroll(state) {
@@ -194,7 +188,6 @@ export default class InteractiveTranscript {
 
   /**
    * Handle setting for line breaks changed.
-   *
    * @param {boolean} state If true, activate line breaks.
    */
   setLineBreaks(state) {
@@ -212,7 +205,6 @@ export default class InteractiveTranscript {
 
   /**
    * Handle setting for autoscroll changed.
-   *
    * @param {boolean} state If true, activate autoscroll.
    */
   setTimestamp(state) {
@@ -229,7 +221,6 @@ export default class InteractiveTranscript {
 
   /**
    * Set telemetry.
-   *
    * @param {object} [params={}] Parameters.
    * @param {number} params.lineHeight Line height.
    * @param {number} params.fontSize Line height.
@@ -251,7 +242,6 @@ export default class InteractiveTranscript {
 
   /**
    * Scroll snippet into view of container.
-   *
    * @param {TranscriptSnippet} snippet Snippet.
    */
   scrollIntoView(snippet) {
@@ -289,7 +279,6 @@ export default class InteractiveTranscript {
 
   /**
    * Handle snippet was clicked.
-   *
    * @param {object} [params={}] Parameters.
    * @param {number} [params.id] Id of snippet.
    * @param {number} [params.time] Start time of snippet.
@@ -308,7 +297,6 @@ export default class InteractiveTranscript {
 
   /**
    * Handle snipped selected.
-   *
    * @param {number} offset Offset.
    */
   handleSnippetSelected(offset) {

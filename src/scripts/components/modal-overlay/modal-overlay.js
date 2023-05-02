@@ -8,7 +8,6 @@ export default class ModalOverlay {
 
   /**
    * Overlay holding content.
-   *
    * @class
    * @param {object} [params={}] Parameters.
    * @param {object} [callbacks={}] Callbacks.
@@ -68,7 +67,6 @@ export default class ModalOverlay {
 
   /**
    * Get DOM for exercise.
-   *
    * @returns {HTMLElement} DOM for exercise.
    */
   getDOM() {
@@ -102,7 +100,6 @@ export default class ModalOverlay {
 
   /**
    * Set DOM of content.
-   *
    * @param {HTMLElement} dom DOM of content.
    */
   setContentDOM(dom) {
@@ -112,7 +109,6 @@ export default class ModalOverlay {
 
   /**
    * Set headline text.
-   *
    * @param {string} text Headline text to set.
    */
   setTitle(text) {
@@ -122,7 +118,6 @@ export default class ModalOverlay {
 
   /**
    * Get computed size.
-   *
    * @returns {object} Size with width and height.
    */
   getSize() {
@@ -132,7 +127,6 @@ export default class ModalOverlay {
 
   /**
    * Handle global click event.
-   *
    * @param {Event} event Click event.
    */
   handleGlobalClick(event) {
@@ -146,7 +140,6 @@ export default class ModalOverlay {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeyDown(event) {

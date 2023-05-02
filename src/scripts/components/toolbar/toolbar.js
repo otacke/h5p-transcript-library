@@ -74,7 +74,6 @@ export default class Toolbar {
 
   /**
    * Return the DOM for this class.
-   *
    * @returns {HTMLElement} DOM for this class.
    */
   getDOM() {
@@ -83,7 +82,6 @@ export default class Toolbar {
 
   /**
    * Add button.
-   *
    * @param {object} [button={}] Button parameters.
    */
   addButton(button = {}) {
@@ -117,7 +115,6 @@ export default class Toolbar {
 
   /**
    * Add select box.
-   *
    * @param {object} [params={}] Parameters.
    * @param {string[]} params.options Options.
    * @param {number} [params.selectedId] Index of selected option.
@@ -136,7 +133,6 @@ export default class Toolbar {
 
   /**
    * Add search box.
-   *
    * @param {object} [params={}] Parameters.
    * @param {boolean} [params.visible] If true, visible. If false, not.
    */
@@ -154,7 +150,6 @@ export default class Toolbar {
 
   /**
    * Move button focus.
-   *
    * @param {number} offset Offset to move position by.
    */
   moveElementFocus(offset) {
@@ -177,7 +172,6 @@ export default class Toolbar {
 
   /**
    * Handle key down.
-   *
    * @param {KeyboardEvent} event Keyboard event.
    */
   handleKeydown(event) {
@@ -203,7 +197,6 @@ export default class Toolbar {
 
   /**
    * Set button attributes.
-   *
    * @param {string} id Button id.
    * @param {object} attributes HTML attributes to set.
    */
@@ -219,7 +212,6 @@ export default class Toolbar {
 
   /**
    * Force button state.
-   *
    * @param {string} id Button id.
    * @param {boolean|number} active If true, toggle active, else inactive.
    * @param {boolean} skipClick If true, will nct click button.
@@ -234,7 +226,6 @@ export default class Toolbar {
 
   /**
    * Enable button.
-   *
    * @param {string} id Button id.
    */
   enableButton(id = '') {
@@ -247,7 +238,6 @@ export default class Toolbar {
 
   /**
    * Disable button.
-   *
    * @param {string} id Button id.
    */
   disableButton(id = '') {
@@ -260,7 +250,6 @@ export default class Toolbar {
 
   /**
    * Show button.
-   *
    * @param {string} id Button id.
    */
   showButton(id = '') {
@@ -273,7 +262,6 @@ export default class Toolbar {
 
   /**
    * Hide button.
-   *
    * @param {string} id Button id.
    */
   hideButton(id = '') {
@@ -286,7 +274,6 @@ export default class Toolbar {
 
   /**
    * Decloak button.
-   *
    * @param {string} id Button id.
    */
   decloakButton(id = '') {
@@ -299,7 +286,6 @@ export default class Toolbar {
 
   /**
    * Cloak button.
-   *
    * @param {string} id Button id.
    */
   cloakButton(id = '') {
@@ -409,7 +395,6 @@ export default class Toolbar {
 
   /**
    * Set transcription depending on index.
-   *
    * @param {number} index Id of transcription to set active.
    */
   setSelectboxTo(index) {

@@ -137,7 +137,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Attach library to wrapper.
-   *
    * @param {H5P.jQuery} $wrapper Content's container.
    */
   attach($wrapper) {
@@ -155,7 +154,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Build DOM.
-   *
    * @returns {HTMLElement} Content DOM.
    */
   buildDOM() {
@@ -168,7 +166,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Parse chapter marks.
-   *
    * @param {string} chapterMarks Chapter marks in mp4chaps format.
    * @returns {object[]|undefined} Time (seconds) and chapter label.
    */
@@ -212,7 +209,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Handle timer position changed.
-   *
    * @param {number} time Time in seconds.
    */
   handlePositionChanged(time) {
@@ -296,7 +292,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Set autoscroll active.
-   *
    * @param {boolean} state If true, set active. If false, inactive.
    */
   setAutoScrollActive(state) {
@@ -309,7 +304,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Set autoscroll active/inactive.
-   *
    * @param {boolean} state If true, set active. If false, inactive.
    */
   setTimestampActive(state) {
@@ -322,7 +316,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Set line breaks active/inactive.
-   *
    * @param {boolean} state If true, set active. If false, inactive.
    */
   setLineBreaksActive(state) {
@@ -335,7 +328,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Set transcript state.
-   *
    * @param {number} state 0 = interactive, 1 = plaintext.
    */
   setInteractive(state) {
@@ -361,7 +353,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Get chapter marks.
-   *
    * @returns {object[]} Chapter marks with time and label.
    */
   getChapterMarks() {
@@ -370,7 +361,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Jump to chapter mark.
-   *
    * @param {number} index If of chapter mark to jump to.
    */
   jumpToChapterMark(index) {
@@ -383,7 +373,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Get transcript options
-   *
    * @returns {object[]} Transcript options with label [and language code].
    */
   getTranscriptOptions() {
@@ -398,7 +387,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Set transcription depending on index.
-   *
    * @param {number} index Id of transcription to set active.
    */
   setTranscriptionTo(index) {
@@ -419,7 +407,6 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
 
   /**
    * Get current state.
-   *
    * @returns {object} Current state.
    */
   getCurrentState() {

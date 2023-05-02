@@ -2,7 +2,6 @@
 export default class Util {
   /**
    * Extend an array just like JQuery's extend.
-   *
    * @returns {object} Merged objects.
    */
   static extend() {
@@ -23,7 +22,6 @@ export default class Util {
 
   /**
    * Retrieve true string from HTML encoded string.
-   *
    * @param {string} input Input string.
    * @returns {string} Output string.
    */
@@ -34,7 +32,6 @@ export default class Util {
 
   /**
    * Retrieve string without HTML tags.
-   *
    * @param {string} html Input string.
    * @returns {string} Output string.
    */
@@ -47,7 +44,6 @@ export default class Util {
   /**
    * Format language tag (RFC 5646). Assuming "language-coutry". No validation.
    * Cmp. https://tools.ietf.org/html/rfc5646
-   *
    * @param {string} languageCode Language tag.
    * @returns {string} Formatted language tag.
    */
@@ -72,7 +68,6 @@ export default class Util {
 
   /**
    * Convert time in milliseconds to timecode.
-   *
    * @param {number} seconds The time in milliSeconds.
    * @returns {string|undefined} The humanized timecode.
    */

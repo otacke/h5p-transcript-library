@@ -50,7 +50,6 @@ export default class SelectBox {
 
   /**
    * Get search box DOM element.
-   *
    * @returns {HTMLElement} Search box DOM element.
    */
   getDOM() {
@@ -96,7 +95,6 @@ export default class SelectBox {
 
   /**
    * Set attribute.
-   *
    * @param {string} attribute Attribute key.
    * @param {string} value Attribute value.
    */
@@ -106,7 +104,6 @@ export default class SelectBox {
 
   /**
    * Set transcription depending on index.
-   *
    * @param {number} index Id of transcription to set active.
    */
   setOptionTo(index) {
@@ -123,7 +120,6 @@ export default class SelectBox {
 
   /**
    * Handle key down event.
-   *
    * @param {KeyboardEvent} event Keydown event.
    */
   handleKeydown(event) {

@@ -48,7 +48,6 @@ export default class TranscriptSnippet {
 
   /**
    * Get DOM.
-   *
    * @returns {HTMLElement} Component's dom.
    */
   getDOM() {
@@ -81,7 +80,6 @@ export default class TranscriptSnippet {
 
   /**
    * Mark text.
-   *
    * @param {string} text Text to mark.
    */
   mark(text) {
@@ -102,7 +100,6 @@ export default class TranscriptSnippet {
 
   /**
    * Set passed style.
-   *
    * @param {boolean} state If true, snipped was passed. If false not.
    */
   setPassed(state) {
@@ -122,7 +119,6 @@ export default class TranscriptSnippet {
 
   /**
    * Set snippet to be tabbable.
-   *
    * @param {boolean} state If true, is tabbable. If false, untabbable.
    */
   setTabbable(state) {
@@ -135,7 +131,6 @@ export default class TranscriptSnippet {
 
   /**
    * Show timestamp.
-   *
    * @param {boolean} state If true, show. If false, hide.
    */
   setTimestamp(state) {
@@ -151,7 +146,6 @@ export default class TranscriptSnippet {
 
   /**
    * Determine whether snipped would be displayed at time.
-   *
    * @param {number} time Time to check.
    * @returns {boolean} True, if snipped would be displayed at time.
    */
