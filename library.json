@@ -3,7 +3,7 @@
   "description": "Transcript library to be used by H5P content types",
   "majorVersion": 1,
   "minorVersion": 1,
-  "patchVersion": 0,
+  "patchVersion": 1,
   "runnable": 0,
   "author": "Oliver Tacke",
   "license": "MIT",
