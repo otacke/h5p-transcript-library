@@ -5,8 +5,8 @@ import Dictionary from '@services/dictionary';
 export default class SelectBox {
   /**
    * @class
-   * @param {object} [params={}] Parameters passed by the editor.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters passed by the editor.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} callbacks.onChanged field changed callback.
    */
   constructor(params = {}, callbacks = {}) {

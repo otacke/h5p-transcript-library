@@ -9,8 +9,8 @@ export default class ModalOverlay {
   /**
    * Overlay holding content.
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClosed] Callback when exercise closed.
    */
   constructor(params = {}, callbacks = {}) {

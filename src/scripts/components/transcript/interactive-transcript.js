@@ -7,8 +7,8 @@ import Util from '@services/util';
 export default class InteractiveTranscript {
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({}, params);
@@ -64,7 +64,7 @@ export default class InteractiveTranscript {
 
   /**
    * Set snippets.
-   * @param {object} [cues=[]] Snippets to set.
+   * @param {object} [cues] Snippets to set.
    */
   setSnippets(cues = []) {
     if (!cues.length) {
@@ -130,7 +130,7 @@ export default class InteractiveTranscript {
 
   /**
    * Highlight a snippet (while unhighlighting all others).
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} [params.id] Id of snippet. Preferred.
    * @param {number} [params.time] Time that snippet should be displayed at.
    */
@@ -221,7 +221,7 @@ export default class InteractiveTranscript {
 
   /**
    * Set telemetry.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} params.lineHeight Line height.
    * @param {number} params.fontSize Line height.
    */
@@ -279,7 +279,7 @@ export default class InteractiveTranscript {
 
   /**
    * Handle snippet was clicked.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} [params.id] Id of snippet.
    * @param {number} [params.time] Start time of snippet.
    */

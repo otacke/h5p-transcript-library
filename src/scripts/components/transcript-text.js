@@ -12,8 +12,8 @@ import LanguageDetect from 'languagedetect';
 export default class TranscriptText {
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
@@ -309,7 +309,7 @@ export default class TranscriptText {
 
   /**
    * Prepare transcript.
-   * @param {object} [data={}] Parameters from author.
+   * @param {object} [data] Parameters from author.
    * @param {number} index Index of transcript.
    */
   async prepareTranscript(data = {}, index) {
@@ -432,7 +432,7 @@ export default class TranscriptText {
 
   /**
    * Highlight a snippet (while unhighlighting all others).
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} [params.id] Id of snippet. Preferred.
    * @param {number} [params.time] Time that snippet should be displayed at.
    */

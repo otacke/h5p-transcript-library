@@ -6,7 +6,7 @@ export default class TimeTracker {
    * @class
    * @param {object} params Parameters.
    * @param {H5P.ContentType} params.instance H5P content instance.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} callbacks.onTimeUpdated Callback for when time updated.
    */
   constructor(params = {}, callbacks = {}) {

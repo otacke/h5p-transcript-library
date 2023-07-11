@@ -36,7 +36,7 @@ export default class Util {
   /**
    * Retrieve string without HTML tags.
    * @param {string} html Input string.
-   * @param {object} [options={}] Options.
+   * @param {object} [options] Options.
    * @param {(string|object)[]} [options.keepTags] Tags to ignore when stripping.
    * @returns {string} Output string.
    */

@@ -6,8 +6,8 @@ export default class Plaintext {
   /**
    * Plain text container.
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object} [callbacks] Callbacks.
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({}, params);
@@ -33,7 +33,7 @@ export default class Plaintext {
 
   /**
    * Set text. Make sure it's purified!
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string[]} params.snippets Text snippets.
    */
   setText(params = {}) {
@@ -93,7 +93,7 @@ export default class Plaintext {
 
   /**
    * Set telemetry.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} params.lineHeight Line height.
    * @param {number} params.fontSize Line height.
    */

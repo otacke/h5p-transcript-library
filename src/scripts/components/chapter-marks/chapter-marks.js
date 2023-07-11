@@ -9,9 +9,9 @@ export default class ChapterMarks {
   /**
    * Chapter marks
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {object[]} [params.chapterMarks=[]] Chapter marks.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {object[]} [params.chapterMarks] Chapter marks.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onClosed] Callback when chapter marks closed.
    */
   constructor(params = {}, callbacks = {}) {
@@ -127,7 +127,7 @@ export default class ChapterMarks {
 
   /**
    * Highligh option in chapter list.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {number} [params.id] Id of option to highlight. Preferred.
    * @param {number} [params.time] Time that identifies option best.
    */

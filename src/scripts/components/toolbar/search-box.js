@@ -5,9 +5,9 @@ import Dictionary from '@services/dictionary';
 export default class SearchBox {
   /**
    * @class
-   * @param {object} [params={}] Parameters passed by the editor.
-   * @param {boolean} [params.visible=true] If true, visible. If false, not.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters passed by the editor.
+   * @param {boolean} [params.visible] If true, visible. If false, not.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} callbacks.onSearchChanged Search changed callback.
    */
   constructor(params = {}, callbacks = {}) {

@@ -9,9 +9,9 @@ export default class Toolbar {
 
   /**
    * @class
-   * @param {object} [params={}] Parameters.
-   * @param {boolean} [params.hidden=false] If true, hide toolbar.
-   * @param {object} [callbacks={}] Callbacks.
+   * @param {object} [params] Parameters.
+   * @param {boolean} [params.hidden] If true, hide toolbar.
+   * @param {object} [callbacks] Callbacks.
    * @param {function} [callbacks.onSearchChanged] Search field changed.
    * @param {function} [callbacks.onLanguageChanged] Language changed callback.
    */
@@ -82,7 +82,7 @@ export default class Toolbar {
 
   /**
    * Add button.
-   * @param {object} [button={}] Button parameters.
+   * @param {object} [button] Button parameters.
    */
   addButton(button = {}) {
     if (typeof button.id !== 'string') {
@@ -115,7 +115,7 @@ export default class Toolbar {
 
   /**
    * Add select box.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {string[]} params.options Options.
    * @param {number} [params.selectedId] Index of selected option.
    */
@@ -133,7 +133,7 @@ export default class Toolbar {
 
   /**
    * Add search box.
-   * @param {object} [params={}] Parameters.
+   * @param {object} [params] Parameters.
    * @param {boolean} [params.visible] If true, visible. If false, not.
    */
   addSearchBox(params = {}) {
