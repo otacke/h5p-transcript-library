@@ -22,7 +22,12 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           compress:{
-            drop_console: true,
+            pure_funcs: [
+              'console.info',
+              'console.debug',
+              'console.error',
+              'console.log'
+            ]
           }
         }
       }),
