@@ -336,6 +336,7 @@ export default class TranscriptText {
 
     // Sanitize cues
     cues = cues
+      .filter((cue) => cue.text.trim().length > 0)
       .map((cue) => {
         // Purify strings
         cue.text = Util.stripHTML(

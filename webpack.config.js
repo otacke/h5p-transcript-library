@@ -26,8 +26,13 @@ export default {
     minimizer: [
       new TerserPlugin({
         terserOptions: {
-          compress: {
-            drop_console: true,
+          compress:{
+            pure_funcs: [
+              'console.info',
+              'console.debug',
+              'console.error',
+              'console.log'
+            ]
           }
         }
       })
