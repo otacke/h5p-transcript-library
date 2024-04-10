@@ -1,8 +1,8 @@
 import './toolbar.scss';
-import Util from '@services/util';
-import ToolbarButton from './toolbar-button';
-import SearchBox from './search-box';
-import SelectBox from './select-box';
+import Util from '@services/util.js';
+import ToolbarButton from './toolbar-button.js';
+import SearchBox from './search-box.js';
+import SelectBox from './select-box.js';
 
 /** Class representing the button bar */
 export default class Toolbar {

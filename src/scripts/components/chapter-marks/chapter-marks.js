@@ -1,6 +1,6 @@
-import Dictionary from '@services/dictionary';
-import Util from '@services/util';
-import ModalOverlay from '@components/modal-overlay/modal-overlay';
+import Dictionary from '@services/dictionary.js';
+import Util from '@services/util.js';
+import ModalOverlay from '@components/modal-overlay/modal-overlay.js';
 import './chapter-marks.scss';
 
 /** Class representing an overlay */

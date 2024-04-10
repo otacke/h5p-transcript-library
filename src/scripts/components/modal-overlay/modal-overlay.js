@@ -1,6 +1,6 @@
-import Dictionary from '@services/dictionary';
-import Util from '@services/util';
-import FocusTrap from '@services/focus-trap';
+import Dictionary from '@services/dictionary.js';
+import Util from '@services/util.js';
+import FocusTrap from '@services/focus-trap.js';
 import './modal-overlay.scss';
 
 /** Class representing an overlay */

@@ -1,6 +1,6 @@
 import './select-box.scss';
-import Util from '@services/util';
-import Dictionary from '@services/dictionary';
+import Util from '@services/util.js';
+import Dictionary from '@services/dictionary.js';
 
 export default class SelectBox {
   /**

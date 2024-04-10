@@ -1,10 +1,10 @@
 import '@components/transcript-text.scss';
-import Util from '@services/util';
-import InteractiveTranscript from '@components/transcript/interactive-transcript';
-import ChapterMarks from '@components/chapter-marks/chapter-marks';
-import Plaintext from '@components/transcript/plaintext';
-import Toolbar from '@components/toolbar/toolbar';
-import Dictionary from '@services/dictionary';
+import Util from '@services/util.js';
+import InteractiveTranscript from '@components/transcript/interactive-transcript.js';
+import ChapterMarks from '@components/chapter-marks/chapter-marks.js';
+import Plaintext from '@components/transcript/plaintext.js';
+import Toolbar from '@components/toolbar/toolbar.js';
+import Dictionary from '@services/dictionary.js';
 import { WebVTTParser } from 'webvtt-parser';
 import LanguageDetect from 'languagedetect';
 
