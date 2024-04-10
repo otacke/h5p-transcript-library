@@ -83,7 +83,7 @@ export default class ChapterMarks {
       button.append(timecode);
     });
 
-    return {list: list, buttons: buttons};
+    return { list: list, buttons: buttons };
   }
 
   /**

@@ -61,7 +61,7 @@ export default class TranscriptText {
           type: 'pulse',
           pulseStates: [
             { id: 'visible', label: Dictionary.get('a11y.buttonVisible') },
-            { id: 'invisible', label: Dictionary.get('a11y.buttonInvisible')},
+            { id: 'invisible', label: Dictionary.get('a11y.buttonInvisible') },
           ],
           pulseIndex: (this.isVisible) ? 0 : 1,
           onClick: () => {
@@ -343,7 +343,7 @@ export default class TranscriptText {
           cue.text, {
             keepTags: [
               'b', 'i', 'u',
-              { tag: 'v', keepAttributes: true}
+              { tag: 'v', keepAttributes: true }
             ]
           }
         );
@@ -356,7 +356,7 @@ export default class TranscriptText {
 
     // Build interactive transcript text.
     this.transcripts[index].snippets = cues.map((cue) => {
-      const result = {...cue};
+      const result = { ...cue };
 
       // Style WebVTT voice tags, why is capturing group not working?
       let voice = result.text.match(/<v(?:\..+?)* (.+?)>/g);
@@ -378,7 +378,7 @@ export default class TranscriptText {
 
     // Build transcript plain text.
     this.transcripts[index].plaintext = cues.map((cue) => {
-      const result = {...cue};
+      const result = { ...cue };
 
       // Style WebVTT voice tags, why is capturing group not working?
       result.text = Util.stripHTML(
