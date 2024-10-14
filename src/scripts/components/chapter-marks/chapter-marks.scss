@@ -1,4 +1,4 @@
-@import "@styles/main";
+@use "@styles/main";
 
 .h5p-chapter-marks-list {
   list-style-type: none;
@@ -23,14 +23,14 @@
       transition: background-color 0.1s ease-in-out, color 0.1s ease-in-out;
 
       &.active {
-        background-color: $color-primary-5;
-        color: $color-primary;
+        background-color: main.$color-primary-5;
+        color: main.$color-primary;
         font-weight: bold;
       }
 
       &:hover {
-        background-color: $color-primary;
-        color: $color-background;
+        background-color: main.$color-primary;
+        color: main.$color-background;
       }
     }
 

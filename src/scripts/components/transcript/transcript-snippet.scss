@@ -1,4 +1,4 @@
-@import './../../../styles/main';
+@use "@styles/main";
 
 .h5p-transcript-snippet {
   border: none;
@@ -9,12 +9,12 @@
   padding: 0;
 
   &.was-passed {
-    color: $color-primary;
+    color: main.$color-primary;
   }
 
   &:hover {
-    background-color: $color-primary;
-    color: $color-background;
+    background-color: main.$color-primary;
+    color: main.$color-background;
     cursor: pointer;
   }
 
@@ -23,7 +23,7 @@
   }
 
   &.highlight {
-    background-color: $color-primary-30;
+    background-color: main.$color-primary-30;
   }
 
   .h5p-transcript-snippet-speaker {
@@ -32,7 +32,7 @@
   }
 
   mark {
-    background-color: $color-mark-background;
-    color: $color-mark-color
+    background-color: main.$color-mark-background;
+    color: main.$color-mark-color
   }
 }

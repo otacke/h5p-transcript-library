@@ -1,17 +1,17 @@
-@import './../../../styles/main';
+@use '@styles/main';
 
 .h5p-transcript-snippets-container {
-  border: 1px solid $color-h5peditor-border;
+  border: 1px solid main.$color-h5peditor-border;
   line-height: 1.5em;
   margin: 0;
   overflow-y: auto;
   padding: 0;
 
   &.h5p-transcript-message {
-    background-color: $color-hint-message-background;
-    border: 1px solid $color-hint-message-border;
+    background-color: main.$color-hint-message-background;
+    border: 1px solid main.$color-hint-message-border;
     box-sizing: border-box;
-    color: $color-hint-message-text;
+    color: main.$color-hint-message-text;
     margin: 0;
     padding: .8em;
     text-align: center;
@@ -22,7 +22,7 @@
       display: inline-block;
 
       &::before {
-        color: $color-text-dark;
+        color: main.$color-text-dark;
         content: "\2022";
         padding-left: .5em;
         padding-right: .5em;

@@ -1,4 +1,4 @@
-@import '@styles/main';
+@use "@styles/main";
 
 .selectbox {
   align-items: center;
@@ -21,7 +21,7 @@
 
     &.disabled {
       background-color: rgba(239, 239, 239, 0.3);
-      color: $color-grey-medium;
+      color: main.$color-grey-medium;
       pointer-events: none;
     }
   }
