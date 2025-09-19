@@ -13,7 +13,7 @@ export default class InteractiveTranscript {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({}, params);
     this.callbacks = Util.extend({
-      onPositionChanged: () => {}
+      onPositionChanged: () => {},
     }, callbacks);
 
     this.snippets = [];
@@ -83,7 +83,7 @@ export default class InteractiveTranscript {
           text: cue.text,
           startTime: cue.startTime,
           endTime: cue.endTime,
-          showTimestamp: this.showTimestamp
+          showTimestamp: this.showTimestamp,
         },
         {
           onClicked: (params) => {
@@ -91,8 +91,8 @@ export default class InteractiveTranscript {
           },
           onSelected: (offset) => {
             this.handleSnippetSelected(offset);
-          }
-        }
+          },
+        },
       );
 
       this.snippets.push(snippet);
@@ -103,7 +103,7 @@ export default class InteractiveTranscript {
         separator.classList.add('h5p-transcript-snippet-separator');
         if (this.showLineBreaks) {
           separator.classList.add(
-            'h5p-transcript-snippet-separator-line-break'
+            'h5p-transcript-snippet-separator-line-break',
           );
         }
 
@@ -198,7 +198,7 @@ export default class InteractiveTranscript {
     this.separators.forEach((separator) => {
       separator.classList.toggle(
         'h5p-transcript-snippet-separator-line-break',
-        state
+        state,
       );
     });
   }
@@ -255,7 +255,7 @@ export default class InteractiveTranscript {
       this.dom.scrollTop + this.dom.offsetHeight
     ) {
       const lineHeightCeil = Math.ceil(
-        snippet.getDOM().offsetHeight / this.lineHeight
+        snippet.getDOM().offsetHeight / this.lineHeight,
       ) * this.lineHeight;
 
       this.dom.scrollTop = snippetPosition + lineHeightCeil -

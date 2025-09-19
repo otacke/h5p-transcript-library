@@ -20,13 +20,14 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       behaviour: {
         maxLines: 10,
         buttons: ['visibility', 'plaintext', 'linebreak', 'autoscroll', 'time'],
-        searchbox: true
+        searchbox: true,
       },
       l10n: {
         noMedium: 'No medium was assigned to the transcript.',
         noTranscript: 'No transcript was provided.',
+        // eslint-disable-next-line @stylistic/js/max-len
         troubleWebVTT: 'There seems to be something wrong with the WebVTT file. Please consult the browser\'s development console for more information.',
-        chapterMarks: 'Chapter marks'
+        chapterMarks: 'Chapter marks',
       },
       a11y: {
         buttonVisible: 'Hide transcript. Currently visible.',
@@ -52,16 +53,16 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         enterToHighlight: 'Enter a query to highlight relevant text.',
         searchboxDisabled: 'Search box disabled.',
         unnamedOption: 'Unnamed option',
-        close: 'Close'
-      }
+        close: 'Close',
+      },
     }, params);
 
     // Sanitize transcript files
     if (!this.params.transcriptFiles.length) {
       this.params.transcriptFiles.push(
         {
-          transcriptFile: {}
-        }
+          transcriptFile: {},
+        },
       );
     }
 
@@ -69,7 +70,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
       .filter((file) => file.transcriptFile?.path)
       .map((file) => {
         file.transcriptFile.path = H5P.getPath(
-          file.transcriptFile.path, contentId
+          file.transcriptFile.path, contentId,
         );
 
         if (typeof file.label !== 'string') {
@@ -101,8 +102,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         {
           onTimeUpdated: (time) => {
             this.transcriptText.updateTime(time);
-          }
-        }
+          },
+        },
       );
       this.tracker.start();
     }
@@ -119,8 +120,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         buttons: this.params.behaviour.buttons,
         searchbox: this.params.behaviour.searchbox,
         ...(this.params.chapterMarks && {
-          chapterMarks: this.parseChapterMarks(this.params.chapterMarks)
-        })
+          chapterMarks: this.parseChapterMarks(this.params.chapterMarks),
+        }),
       },
       {
         onPositionChanged: (time) => {
@@ -128,8 +129,8 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
         },
         resize: () => {
           this.trigger('resize');
-        }
-      }
+        },
+      },
     );
 
     this.transcriptText.initialize();
@@ -194,12 +195,15 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
           .split(':')
           .reduce((total, current, index) => {
             if (index === 0) { // hours
+              // eslint-disable-next-line no-magic-numbers
               return total + parseInt(current) * 3600;
             }
             else if (index === 1) { // minutes
+              // eslint-disable-next-line no-magic-numbers
               return total + parseInt(current) * 60;
             }
             return total + parseInt(current); // seconds
+            // eslint-disable-next-line no-magic-numbers
           }, parseFloat((time ?? 0) / 1000));
 
         return { time: time, label: label };
@@ -411,7 +415,7 @@ export default class TranscriptLibrary extends H5P.EventDispatcher {
    */
   getCurrentState() {
     return {
-      transcript: this.transcriptText.getCurrentState()
+      transcript: this.transcriptText.getCurrentState(),
     };
   }
 }

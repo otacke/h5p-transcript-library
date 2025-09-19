@@ -1,5 +1,11 @@
 import Util from '@services/util.js';
 
+/** @constant {number} TRACKING_TIME_INCREASE_FACTOR Default tracking time increase factor. */
+const TRACKING_TIME_INCREASE_FACTOR = 1.1;
+
+/** @constant {number} TRACKING_TIME_DECREASE_FACTOR Default tracking time decrease factor. */
+const TRACKING_TIME_DECREASE_FACTOR = 0.9;
+
 export default class TimeTracker {
   /**
    * Track H5P media instance time updates.
@@ -11,11 +17,11 @@ export default class TimeTracker {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      instance: {}
+      instance: {},
     }, params);
 
     this.callbacks = Util.extend({
-      onTimeUpdated: () => {}
+      onTimeUpdated: () => {},
     }, callbacks);
 
     // Keep track whether tracking is active
@@ -47,7 +53,7 @@ export default class TimeTracker {
     if (machineName === 'H5P.Audio') {
       this.params.instance.audio?.addEventListener(
         'timeupdate',
-        this.handleAudio
+        this.handleAudio,
       );
       this.isTracking = true;
       return;
@@ -84,10 +90,10 @@ export default class TimeTracker {
 
       // Gradually adjust timeout by +/- 10 % if required
       if (endtime - starttime > timeout_ms) {
-        timeout_ms = timeout_ms * 1.1;
+        timeout_ms = timeout_ms * TRACKING_TIME_INCREASE_FACTOR;
       }
       else if (timeout_ms > TimeTracker.POLL_INTERVAL_MS) {
-        timeout_ms = Math.max(TimeTracker.POLL_INTERVAL_MS, timeout_ms * 0.9);
+        timeout_ms = Math.max(TimeTracker.POLL_INTERVAL_MS, timeout_ms * TRACKING_TIME_DECREASE_FACTOR);
       }
 
       this.poll(pollInstance, timeout_ms);
@@ -106,7 +112,7 @@ export default class TimeTracker {
     const machineName = this.params.instance?.libraryInfo?.machineName;
     if (machineName === 'H5P.Audio') {
       this.params.instance?.audio?.removeEventListener(
-        'timeupdate', this.handleAudio
+        'timeupdate', this.handleAudio,
       );
     }
 

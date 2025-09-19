@@ -12,11 +12,11 @@ export default class SelectBox {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       options: [],
-      selectedId: 0
+      selectedId: 0,
     }, params);
 
     this.callbacks = Util.extend({
-      onChanged: () => {}
+      onChanged: () => {},
     }, callbacks);
 
     this.handleKeydown = this.handleKeydown.bind(this);
@@ -27,7 +27,7 @@ export default class SelectBox {
     this.selectField = document.createElement('select');
     this.selectField.classList.add('selectbox-select');
     this.selectField.setAttribute(
-      'aria-label', Dictionary.get('a11y.selectField')
+      'aria-label', Dictionary.get('a11y.selectField'),
     );
     this.selectField.addEventListener('change', () => {
       this.callbacks.onChanged(parseInt(this.selectField.value));
@@ -76,7 +76,7 @@ export default class SelectBox {
   enable() {
     this.selectField.classList.remove('disabled');
     this.selectField.setAttribute(
-      'aria-label', Dictionary.get('a11y.selectField')
+      'aria-label', Dictionary.get('a11y.selectField'),
     );
 
     this.selectField.removeEventListener('keydown', this.handleKeydown);
@@ -88,7 +88,7 @@ export default class SelectBox {
   disable() {
     this.selectField.classList.add('disabled');
     this.selectField.setAttribute(
-      'aria-label', Dictionary.get('a11y.selectFieldDisabled')
+      'aria-label', Dictionary.get('a11y.selectFieldDisabled'),
     );
     this.selectField.addEventListener('keydown', this.handleKeydown);
   }

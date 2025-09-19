@@ -20,12 +20,12 @@ export default class Toolbar {
       buttons: [],
       hidden: false,
       searchbox: true,
-      selectbox: []
+      selectbox: [],
     }, params);
 
     this.callbacks = Util.extend({
       onSearchChanged: () => {},
-      onLanguageChanged: () => {}
+      onLanguageChanged: () => {},
     }, callbacks);
 
     this.buttons = {};
@@ -95,20 +95,20 @@ export default class Toolbar {
         ...(button.a11y && { a11y: button.a11y }),
         classes: ['toolbar-button', `toolbar-button-${button.id}`],
         ...(typeof button.disabled === 'boolean' && {
-          disabled: button.disabled
+          disabled: button.disabled,
         }),
         ...(button.active && { active: button.active }),
         ...(button.type && { type: button.type }),
         ...(button.pulseStates && { pulseStates: button.pulseStates }),
-        ...(button.pulseIndex && { pulseIndex: button.pulseIndex })
+        ...(button.pulseIndex && { pulseIndex: button.pulseIndex }),
       },
       {
         ...(typeof button.onClick === 'function' && {
           onClick: (event, params) => {
             button.onClick(event, params);
-          }
-        })
-      }
+          },
+        }),
+      },
     );
     this.buttonsContainer.appendChild(this.buttons[button.id].getDOM());
   }
@@ -125,8 +125,8 @@ export default class Toolbar {
       {
         onChanged: (index) => {
           this.callbacks.onLanguageChanged(index);
-        }
-      }
+        },
+      },
     );
     this.nonButtonsContainer.append(this.selectbox.getDOM());
   }
@@ -142,8 +142,8 @@ export default class Toolbar {
       {
         onSearchChanged: (text) => {
           this.callbacks.onSearchChanged(text);
-        }
-      }
+        },
+      },
     );
     this.nonButtonsContainer.appendChild(this.searchbox.getDOM());
   }
@@ -186,7 +186,7 @@ export default class Toolbar {
     }
     else if (event.code === 'End') {
       this.moveElementFocus(
-        Object.keys(this.buttons).length - 1 - this.currentElementIndex
+        Object.keys(this.buttons).length - 1 - this.currentElementIndex,
       );
     }
     else {

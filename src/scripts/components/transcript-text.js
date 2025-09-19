@@ -22,7 +22,7 @@ export default class TranscriptText {
 
     this.callbacks = Util.extend({
       onPositionChanged: () => {},
-      resize: () => {}
+      resize: () => {},
     }, callbacks);
 
     // Transcript visible or invisible
@@ -66,7 +66,7 @@ export default class TranscriptText {
           pulseIndex: (this.isVisible) ? 0 : 1,
           onClick: () => {
             this.handleVisibilityChanged();
-          }
+          },
         });
       }
       else if (button === 'plaintext') {
@@ -77,20 +77,20 @@ export default class TranscriptText {
           pulseStates: [
             {
               id: 'interactive',
-              label: Dictionary.get('a11y.buttonInteractive')
+              label: Dictionary.get('a11y.buttonInteractive'),
             },
             {
               id: 'not-interactive',
-              label: Dictionary.get('a11y.buttonPlaintext')
-            }
+              label: Dictionary.get('a11y.buttonPlaintext'),
+            },
           ],
           a11y: {
-            disabled: Dictionary.get('a11y.buttonModeDisabled')
+            disabled: Dictionary.get('a11y.buttonModeDisabled'),
           },
           pulseIndex: (this.isInteractive) ? 0 : 1,
           onClick: () => {
             this.handleTranscriptModeChanged();
-          }
+          },
         });
       }
       else if (button === 'autoscroll') {
@@ -102,11 +102,11 @@ export default class TranscriptText {
           a11y: {
             active: Dictionary.get('a11y.buttonAutoscrollActive'),
             inactive: Dictionary.get('a11y.buttonAutoscrollInactive'),
-            disabled: Dictionary.get('a11y.buttonAutoscrollDisabled')
+            disabled: Dictionary.get('a11y.buttonAutoscrollDisabled'),
           },
           onClick: (event, params = {}) => {
             this.handleAutoScrollChanged(params.active);
-          }
+          },
         });
       }
       else if (button === 'time') {
@@ -118,11 +118,11 @@ export default class TranscriptText {
           a11y: {
             active: Dictionary.get('a11y.buttonTimeActive'),
             inactive: Dictionary.get('a11y.buttonTimeInactive'),
-            disabled: Dictionary.get('a11y.buttonTimeDisabled')
+            disabled: Dictionary.get('a11y.buttonTimeDisabled'),
           },
           onClick: (event, params = {}) => {
             this.handleTimestampChanged(params.active);
-          }
+          },
         });
       }
       else if (button === 'linebreak') {
@@ -134,11 +134,11 @@ export default class TranscriptText {
           a11y: {
             active: Dictionary.get('a11y.buttonLineBreakActive'),
             inactive: Dictionary.get('a11y.buttonLineBreakInactive'),
-            disabled: Dictionary.get('a11y.buttonLineBreakDisabled')
+            disabled: Dictionary.get('a11y.buttonLineBreakDisabled'),
           },
           onClick: (event, params = {}) => {
             this.setLineBreak(params.active);
-          }
+          },
         });
       }
     });
@@ -150,19 +150,19 @@ export default class TranscriptText {
         pulseStates: [
           {
             id: 'chaptermarksopen',
-            label: Dictionary.get('a11y.buttonChapterMarksOpen')
+            label: Dictionary.get('a11y.buttonChapterMarksOpen'),
           },
           {
             id: 'chaptermarksclose',
-            label: Dictionary.get('a11y.buttonChapterMarksClose')
-          }
+            label: Dictionary.get('a11y.buttonChapterMarksClose'),
+          },
         ],
         a11y: {
-          disabled: Dictionary.get('a11y.buttonChapterMarksDisabled')
+          disabled: Dictionary.get('a11y.buttonChapterMarksDisabled'),
         },
         onClick: () => {
           this.toggleChapterMarks();
-        }
+        },
       });
     }
 
@@ -175,7 +175,7 @@ export default class TranscriptText {
           options: this.params.transcriptFiles.map((file) => {
             return Util.stripHTML(Util.htmlDecode(file.label));
           }),
-          selectedId: this.selectedScriptId
+          selectedId: this.selectedScriptId,
         },
         searchbox: this.params.searchbox,
       },
@@ -185,14 +185,14 @@ export default class TranscriptText {
         },
         onLanguageChanged: (index) => {
           this.switchToTranscript(index);
-        }
-      }
+        },
+      },
     );
     this.dom.appendChild(this.toolbar.getDOM());
 
     this.transcriptContainer = document.createElement('div');
     this.transcriptContainer.classList.add(
-      'h5p-transcript-transcript-container'
+      'h5p-transcript-transcript-container',
     );
     this.dom.appendChild(this.transcriptContainer);
 
@@ -202,13 +202,13 @@ export default class TranscriptText {
         maxLines: this.params.maxLines,
         scrollSnippetsIntoView: this.isAutoScrollActive,
         showTimestamp: this.isTimestampActive,
-        showLineBreaks: this.isLineBreakActive
+        showLineBreaks: this.isLineBreakActive,
       },
       {
         onPositionChanged: (params) => {
           this.callbacks.onPositionChanged(params);
-        }
-      }
+        },
+      },
     );
     if (!this.isInteractive) {
       this.snippetsContainer.hide();
@@ -218,7 +218,7 @@ export default class TranscriptText {
     // Container for plaintext transcript
     this.plaintextContainer = new Plaintext({
       maxLines: this.params.maxLines,
-      showLineBreaks: this.isLineBreakActive
+      showLineBreaks: this.isLineBreakActive,
     });
     if (this.isInteractive) {
       this.plaintextContainer.hide();
@@ -239,7 +239,7 @@ export default class TranscriptText {
         }
       }, {
         root: document.documentElement,
-        threshold: [1]
+        threshold: [1],
       });
       this.observer.observe(this.snippetsContainer.getDOM());
       this.observer.observe(this.plaintextContainer.getDOM());
@@ -251,7 +251,7 @@ export default class TranscriptText {
     if (this.params.chapterMarks) {
       this.chapterMarks = new ChapterMarks(
         {
-          chapterMarks: this.params.chapterMarks
+          chapterMarks: this.params.chapterMarks,
         },
         {
           onClosed: () => {
@@ -259,8 +259,8 @@ export default class TranscriptText {
           },
           onChapterChanged: (time) => {
             this.callbacks.onPositionChanged(time);
-          }
-        }
+          },
+        },
       );
       this.dom.append(this.chapterMarks.getDOM());
     }
@@ -290,10 +290,10 @@ export default class TranscriptText {
       this.toolbar.disable();
 
       this.snippetsContainer.setErrorMessage(
-        errorMessages.join('\n')
+        errorMessages.join('\n'),
       );
       this.plaintextContainer.setErrorMessage(
-        errorMessages.join('\n')
+        errorMessages.join('\n'),
       );
       this.callbacks.resize();
       return;
@@ -328,7 +328,7 @@ export default class TranscriptText {
       location = `(${ location.join(', ') })`; // array becomes string
 
       console.warn(
-        `H5P.Transcript. Error in WebVTT file: ${error.message} ${location}`
+        `H5P.Transcript. Error in WebVTT file: ${error.message} ${location}`,
       );
     });
 
@@ -343,9 +343,9 @@ export default class TranscriptText {
           cue.text, {
             keepTags: [
               'b', 'i', 'u',
-              { tag: 'v', keepAttributes: true }
-            ]
-          }
+              { tag: 'v', keepAttributes: true },
+            ],
+          },
         );
 
         // Replace line breaks
@@ -364,7 +364,7 @@ export default class TranscriptText {
         const voiceTag = voice[0];
         const speaker = voiceTag.substring(
           voiceTag.indexOf(' ') + 1,
-          voiceTag.length - 1
+          voiceTag.length - 1,
         );
         const text = Util.stripHTML(result.text, { keepTags: ['b', 'i', 'u'] });
 
@@ -382,7 +382,7 @@ export default class TranscriptText {
 
       // Style WebVTT voice tags, why is capturing group not working?
       result.text = Util.stripHTML(
-        result.text, { keepTags: [{ tag: 'v', keepAttributes: true }] }
+        result.text, { keepTags: [{ tag: 'v', keepAttributes: true }] },
       );
 
       let voice = result.text.match(/<v(?:\..+?)* (.+?)>/g);
@@ -390,12 +390,12 @@ export default class TranscriptText {
         const voiceTag = voice[0];
         const speaker = voiceTag.substring(
           voiceTag.indexOf(' ') + 1,
-          voiceTag.length - 1
+          voiceTag.length - 1,
         );
 
         result.text = result.text.replace(
           voiceTag,
-          `${speaker}: `
+          `${speaker}: `,
         );
       }
 
@@ -418,7 +418,7 @@ export default class TranscriptText {
     }
 
     this.transcriptContainer.setAttribute(
-      'lang', Util.htmlDecode(languageCode)
+      'lang', Util.htmlDecode(languageCode),
     );
   }
 
@@ -486,7 +486,7 @@ export default class TranscriptText {
     if (!this.transcripts[index]?.cues?.cues.length) {
       this.setLanguageCode(null);
       this.snippetsContainer.setErrorMessage(
-        Dictionary.get('l10n.troubleWebVTT')
+        Dictionary.get('l10n.troubleWebVTT'),
       );
       this.callbacks.resize();
 
@@ -496,15 +496,15 @@ export default class TranscriptText {
     this.selectedScriptId = index;
 
     this.setLanguageCode(
-      this.transcripts[index].languageCode
+      this.transcripts[index].languageCode,
     );
 
     this.snippetsContainer.setSnippets(
-      this.transcripts[index].snippets
+      this.transcripts[index].snippets,
     );
 
     this.plaintextContainer.setText({
-      snippets: this.transcripts[index].plaintext
+      snippets: this.transcripts[index].plaintext,
     });
 
     this.applyViewChangesToTranscript();
@@ -533,17 +533,17 @@ export default class TranscriptText {
 
     const containerStyle = window.getComputedStyle(target);
     const lineHeight = parseFloat(
-      containerStyle.getPropertyValue('line-height')
+      containerStyle.getPropertyValue('line-height'),
     );
     const fontSize = parseFloat(
-      containerStyle.getPropertyValue('font-size')
+      containerStyle.getPropertyValue('font-size'),
     );
 
     this.snippetsContainer.setTelemetry({
-      fontSize: fontSize, lineHeight: lineHeight
+      fontSize: fontSize, lineHeight: lineHeight,
     });
     this.plaintextContainer.setTelemetry({
-      fontSize: fontSize, lineHeight: lineHeight
+      fontSize: fontSize, lineHeight: lineHeight,
     });
 
     this.callbacks.resize();
@@ -678,7 +678,7 @@ export default class TranscriptText {
       isInteractive: this.isInteractive,
       isTimestampActive: this.isTimestampActive,
       isLineBreakActive: this.isLineBreakActive,
-      selectedScriptId: this.selectedScriptId
+      selectedScriptId: this.selectedScriptId,
     };
   }
 

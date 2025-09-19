@@ -125,17 +125,23 @@ export default class Util {
 
     seconds = Math.floor(seconds); // Ignore ms
 
+    // eslint-disable-next-line no-magic-numbers
     const hours = Math.floor(seconds / 3600);
+    // eslint-disable-next-line no-magic-numbers
     seconds -= hours * 3600;
 
+    // eslint-disable-next-line no-magic-numbers
     const minutes = Math.floor(seconds / 60);
+    // eslint-disable-next-line no-magic-numbers
     seconds -= minutes * 60;
 
     let timecode = '';
     if (hours > 0) {
       timecode = `${hours}:`;
     }
+    // eslint-disable-next-line no-magic-numbers
     timecode += (hours > 0 && minutes < 10) ? `0${minutes}:` : `${minutes}:`;
+    // eslint-disable-next-line no-magic-numbers
     timecode += (seconds < 10) ? `0${seconds}` : `${seconds}`;
 
     return timecode;

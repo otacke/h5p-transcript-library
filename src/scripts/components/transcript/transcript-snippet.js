@@ -12,7 +12,7 @@ export default class TranscriptSnippet {
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
       text: '',
-      showTimestamp: false
+      showTimestamp: false,
     }, params);
 
     this.callbacks = Util.extend({
@@ -60,7 +60,7 @@ export default class TranscriptSnippet {
   handleClick() {
     this.callbacks.onClicked({
       id: this.params.id,
-      time: this.params.startTime
+      time: this.params.startTime,
     });
   }
 

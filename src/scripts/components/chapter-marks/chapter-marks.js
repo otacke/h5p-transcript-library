@@ -16,12 +16,12 @@ export default class ChapterMarks {
    */
   constructor(params = {}, callbacks = {}) {
     this.params = Util.extend({
-      chapterMarks: []
+      chapterMarks: [],
     }, params);
 
     this.callbacks = Util.extend({
       onClosed: () => {},
-      onChapterChanged: () => {}
+      onChapterChanged: () => {},
     }, callbacks);
 
     this.time = 0;
@@ -31,8 +31,8 @@ export default class ChapterMarks {
       {
         onClosed: () => {
           this.callbacks.onClosed();
-        }
-      }
+        },
+      },
     );
     this.dom = this.overlay.getDOM();
 

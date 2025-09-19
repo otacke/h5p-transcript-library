@@ -17,7 +17,7 @@ export default class ModalOverlay {
     this.params = Util.extend({}, params);
 
     this.callbacks = Util.extend({
-      onClosed: () => {}
+      onClosed: () => {},
     }, callbacks);
 
     this.handleGlobalClick = this.handleGlobalClick.bind(this);

@@ -2,6 +2,9 @@ import './search-box.scss';
 import Util from '@services/util.js';
 import Dictionary from '@services/dictionary.js';
 
+/** @constant {number} KEYUP_TIMEOUT_MS Timeout for keyup events to trigger on every stroke. */
+const KEYUP_TIMEOUT_MS = 500;
+
 export default class SearchBox {
   /**
    * @class
@@ -35,7 +38,7 @@ export default class SearchBox {
       clearTimeout(this.keyupTimeout);
       this.keyupTimeout = setTimeout(() => {
         this.callbacks.onSearchChanged(this.inputField.value);
-      }, 500); // Don't call on every quick key stroke
+      }, KEYUP_TIMEOUT_MS); // Don't call on every quick key stroke
     });
     this.dom.appendChild(this.inputField);
   }
